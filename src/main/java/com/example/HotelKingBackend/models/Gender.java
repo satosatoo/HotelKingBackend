@@ -18,8 +18,7 @@ public class Gender {
     @NotBlank
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "gender")
+    @OneToMany(mappedBy = "gender")
     @Column(name = "personal_info")
     private List<PersonalInfo> personalInfo;
 

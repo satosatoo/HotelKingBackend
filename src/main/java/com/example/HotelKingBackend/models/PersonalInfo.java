@@ -22,8 +22,9 @@ public class PersonalInfo {
     @NotBlank
     private String placeOfResidence;
 
-    @OneToMany(mappedBy = "personal_info")
-    private String gender;
+    @ManyToOne
+    @JoinColumn(name = "gender_id")
+    private Gender gender;
 
     @OneToOne
     @JoinColumn(name = "employee_id")

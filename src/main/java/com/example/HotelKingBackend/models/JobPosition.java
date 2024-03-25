@@ -21,8 +21,7 @@ public class JobPosition {
     @NotBlank
     private double salary;
 
-    @ManyToOne
-    @JoinColumn(name = "staff_id")
+    @OneToMany(mappedBy = "job_position")
     private List<Employee> employees;
 
     public JobPosition(String name, double salary) {

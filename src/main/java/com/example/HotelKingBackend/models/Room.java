@@ -35,15 +35,14 @@ public class Room {
     @Column(name = "room_size")
     private double roomSize;
 
-    @NotBlank
-    private double rating;
+    @OneToMany(mappedBy = "room")
+    private List<RoomReview> reviews;
 
-    @Column(name = "room_facility")
     @ManyToMany
-    @JoinTable(name = "room_facility",
+    @JoinTable(name = "room_facility_junction",
                joinColumns = {@JoinColumn(name = "room_id")},
                inverseJoinColumns = {@JoinColumn(name = "facility_id")})
-    private List<RoomFacility> roomFacility;
+    private List<RoomFacility> facilities;
 
     @NotBlank
     @Column(name = "price_per_night")
@@ -58,7 +57,7 @@ public class Room {
         this.numberOfGuests = numberOfGuests;
         this.description = description;
         this.roomSize = roomSize;
-        this.roomFacility = roomFacility;
+        this.facilities = roomFacility;
         this.pricePerNight = pricePerNight;
     }
 
@@ -67,9 +66,7 @@ public class Room {
         this.numberOfGuests = numberOfGuests;
         this.description = description;
         this.roomSize = roomSize;
-        this.roomFacility = roomFacility;
+        this.facilities = roomFacility;
         this.pricePerNight = pricePerNight;
     }
-
-
 }

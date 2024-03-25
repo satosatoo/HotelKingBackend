@@ -43,6 +43,9 @@ public class Guest {
 //        userRepository.save(user);
 //    }
 
+    @OneToMany(mappedBy = "guest")
+    private List<RoomReview> reviews;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "guest_role_junction",
                joinColumns = {@JoinColumn(name = "user_id")},

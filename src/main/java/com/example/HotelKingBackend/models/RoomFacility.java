@@ -18,7 +18,7 @@ public class RoomFacility {
     @NotBlank
     private String name;
 
-    @ManyToMany(mappedBy = "room_facility")
+    @ManyToMany(mappedBy = "facilities")
     private List<Room> rooms;
 
     public RoomFacility(String name) {

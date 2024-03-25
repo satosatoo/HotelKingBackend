@@ -39,9 +39,9 @@ public class Employee {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "staff")
-    @Column(name = "job_position")
-    private JobPosition jobPosition;
+    @ManyToOne
+    @JoinColumn(name = "position_id")
+    private JobPosition job_position;
 
     @NotBlank
     @Column(name = "working_days")
@@ -57,7 +57,6 @@ public class Employee {
 
     @OneToOne
     @JoinColumn(name = "personal_info_id")
-    @Column(name = "personal_info")
     private PersonalInfo personalInfo;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -72,7 +71,7 @@ public class Employee {
         this.name = name;
         this.surname = surname;
         this.phoneNumber = phoneNumber;
-        this.jobPosition = jobPosition;
+        this.job_position = jobPosition;
         this.workingDays = workingDays;
         this.workingTime = workingTime;
         this.employmentDate = employmentDate;
@@ -86,7 +85,7 @@ public class Employee {
         this.name = name;
         this.surname = surname;
         this.phoneNumber = phoneNumber;
-        this.jobPosition = jobPosition;
+        this.job_position = jobPosition;
         this.workingDays = workingDays;
         this.workingTime = workingTime;
         this.employmentDate = employmentDate;
@@ -100,7 +99,7 @@ public class Employee {
         this.name = name;
         this.surname = surname;
         this.phoneNumber = phoneNumber;
-        this.jobPosition = jobPosition;
+        this.job_position = jobPosition;
         this.workingDays = workingDays;
         this.workingTime = workingTime;
         this.employmentDate = employmentDate;
