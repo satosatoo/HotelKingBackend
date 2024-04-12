@@ -5,28 +5,24 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
 
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
 public class Employee {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "employee_id")
-    private Long employeeId;                    //        impl
+    private Long employeeId;
 
     @NotBlank
     @Email
     private String email;
 
     @NotBlank
-    @Size(min = 8, message = "Password must be at least 8 characters long")
+    @Size(min = 8)
     private String password;
 
     @NotBlank
@@ -39,9 +35,12 @@ public class Employee {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "position_id")
-    private JobPosition job_position;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "registration_date")
+    private Date registrationDate;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @NotBlank
     @Column(name = "working_days")
@@ -52,58 +51,194 @@ public class Employee {
     private String workingTime;
 
     @NotNull
-    @Column(name = "employment_date")
-    private Date employmentDate;     // дата трудоустройства
+    private Date dob;
 
-    @OneToOne
-    @JoinColumn(name = "personal_info_id")
-    private PersonalInfo personalInfo;
+    @NotBlank
+    private String placeOfResidence;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "staff_role_junction",
-               joinColumns = {@JoinColumn(name = "employee_id")},
-               inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    private List<Role> authorities;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
-    public Employee(String email, String password, String name, String surname, String phoneNumber, JobPosition jobPosition, String workingDays, String workingTime, Date employmentDate, PersonalInfo personalInfo) {
+    @ManyToOne
+    @JoinColumn(name = "position_id")
+    private JobPosition job_position;
+
+    public Employee() {
+    }
+
+    public Employee(String email, String password, String name, String surname, String phoneNumber, Role role, String workingDays, String workingTime, Date dob, String placeOfResidence, Gender gender, JobPosition job_position) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.surname = surname;
         this.phoneNumber = phoneNumber;
-        this.job_position = jobPosition;
+        this.registrationDate = new Date(System.currentTimeMillis());
+        this.role = role;
         this.workingDays = workingDays;
         this.workingTime = workingTime;
-        this.employmentDate = employmentDate;
-        this.personalInfo = personalInfo;
+        this.dob = dob;
+        this.placeOfResidence = placeOfResidence;
+        this.gender = gender;
+        this.job_position = job_position;
     }
 
-    public Employee(Long employeeId, String email, String password, String name, String surname, String phoneNumber, JobPosition jobPosition, String workingDays, String workingTime, Date employmentDate, PersonalInfo personalInfo) {
+    public Employee(Long employeeId, String email, String password, String name, String surname, String phoneNumber, Role role, String workingDays, String workingTime, Date dob, String placeOfResidence, Gender gender, JobPosition job_position) {
         this.employeeId = employeeId;
         this.email = email;
         this.password = password;
         this.name = name;
         this.surname = surname;
         this.phoneNumber = phoneNumber;
-        this.job_position = jobPosition;
+        this.registrationDate = new Date(System.currentTimeMillis());
+        this.role = role;
         this.workingDays = workingDays;
         this.workingTime = workingTime;
-        this.employmentDate = employmentDate;
-        this.personalInfo = personalInfo;
+        this.dob = dob;
+        this.placeOfResidence = placeOfResidence;
+        this.gender = gender;
+        this.job_position = job_position;
     }
 
-    public Employee(Long employeeId, String email, String password, String name, String surname, String phoneNumber, JobPosition jobPosition, String workingDays, String workingTime, Date employmentDate, PersonalInfo personalInfo, List<Role> authorities) {
-        this.employeeId = employeeId;
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.phoneNumber = phoneNumber;
-        this.job_position = jobPosition;
-        this.workingDays = workingDays;
-        this.workingTime = workingTime;
-        this.employmentDate = employmentDate;
-        this.personalInfo = personalInfo;
-        this.authorities = authorities;
+    public Long getEmployeeId() {
+        return employeeId;
     }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public String getWorkingDays() {
+        return workingDays;
+    }
+
+    public void setWorkingDays(String workingDays) {
+        this.workingDays = workingDays;
+    }
+
+    public String getWorkingTime() {
+        return workingTime;
+    }
+
+    public void setWorkingTime(String workingTime) {
+        this.workingTime = workingTime;
+    }
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
+
+    public String getPlaceOfResidence() {
+        return placeOfResidence;
+    }
+
+    public void setPlaceOfResidence(String placeOfResidence) {
+        this.placeOfResidence = placeOfResidence;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public JobPosition getJob_position() {
+        return job_position;
+    }
+
+    public void setJob_position(JobPosition job_position) {
+        this.job_position = job_position;
+    }
+
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return List.of(new SimpleGrantedAuthority(role.name()));
+//    }
+//
+//    @Override
+//    public String getPassword() {
+//        return this.password;
+//    }
+//
+//    @Override
+//    public String getUsername() {
+//        return this.email;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return true;
+//    }
 }

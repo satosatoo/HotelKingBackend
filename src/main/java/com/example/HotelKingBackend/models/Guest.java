@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
@@ -13,22 +12,22 @@ import java.util.List;
 public class Guest {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "guest_id")
-    private Long guestId;                // реализовать правильное инкрементирование  mb uuid
+    private Long guestId;
 
     @NotBlank
     @Email
     private String email;
 
     @NotBlank
-    @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
 
     @NotBlank
-    private String name;               //        validation
+    private String name;
 
     @NotBlank
-    private String surname;            //        validation
+    private String surname;
 
     @NotBlank
     @Column(name = "phone_number")
@@ -38,19 +37,11 @@ public class Guest {
     @Column(name = "registration_date")
     private Date registrationDate;
 
-//    public void save(User user) {
-//        user.setRegistrationDate(new Date()); Установка текущей даты регистрации
-//        userRepository.save(user);
-//    }
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToMany(mappedBy = "guest")
     private List<RoomReview> reviews;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "guest_role_junction",
-               joinColumns = {@JoinColumn(name = "user_id")},
-               inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    private List<Role> authorities;
 
     @OneToMany(mappedBy = "guest", cascade = CascadeType.ALL)
     private List<Reservation> reservations;
@@ -58,36 +49,135 @@ public class Guest {
     public Guest() {
     }
 
-    public Guest(Long guestId, String email, String password, String name, String surname, String phoneNumber, Date registrationDate) {
+    public Guest(String email, String password, String name, String surname, String phoneNumber, Role role) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.surname = surname;
+        this.phoneNumber = phoneNumber;
+        this.registrationDate = new Date(System.currentTimeMillis());
+        this.role = role;
+    }
+
+    public Guest(Long guestId, String email, String password, String name, String surname, String phoneNumber, Role role) {
         this.guestId = guestId;
         this.email = email;
         this.password = password;
         this.name = name;
         this.surname = surname;
         this.phoneNumber = phoneNumber;
-        this.registrationDate = registrationDate;
+        this.registrationDate = new Date(System.currentTimeMillis());
+        this.role = role;
     }
 
-    public Guest(String email, String password, String name, String surname, String phoneNumber, Date registrationDate, List<Role> authorities, List<Reservation> reservations) {
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.phoneNumber = phoneNumber;
-        this.registrationDate = registrationDate;
-        this.authorities = authorities;
-        this.reservations = reservations;
+    public Long getGuestId() {
+        return guestId;
     }
 
-    public Guest(Long guestId, String email, String password, String name, String surname, String phoneNumber, Date registrationDate, List<Role> authorities, List<Reservation> reservations) {
+    public void setGuestId(Long guestId) {
         this.guestId = guestId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
-        this.authorities = authorities;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public List<RoomReview> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<RoomReview> reviews) {
+        this.reviews = reviews;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
     }
+
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return List.of(new SimpleGrantedAuthority(role.name()));
+//    }
+//
+//    @Override
+//    public String getPassword() {
+//        return this.password;
+//    }
+//
+//    @Override
+//    public String getUsername() {
+//        return this.email;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return true;
+//    }
 }
