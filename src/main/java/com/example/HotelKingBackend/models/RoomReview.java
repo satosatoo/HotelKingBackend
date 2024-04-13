@@ -1,5 +1,6 @@
 package com.example.HotelKingBackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -20,10 +21,12 @@ public class RoomReview {
 
     @ManyToOne
     @JoinColumn(name = "guest_id")
+    @JsonIgnore
     private Guest guest;
 
     @ManyToOne
     @JoinColumn(name = "room_id")
+    @JsonIgnore
     private Room room;
 
     public RoomReview(double rating, String comment, Guest guest, Room room) {

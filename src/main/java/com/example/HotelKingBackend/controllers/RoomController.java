@@ -32,7 +32,7 @@ public class RoomController {
         return roomService.getAllRooms();
     }
 
-    @GetMapping()
+    @GetMapping("/available/")
     @ResponseBody
     public List<Room> getAvailableRooms(
             @RequestParam("checkInDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkInDate,
@@ -41,7 +41,7 @@ public class RoomController {
         return roomService.getAvailableRooms(checkInDate, checkOutDate);
     }
 
-    @PostMapping
+    @PostMapping("/")
     public Room createRoom(@RequestBody Room room) {
         List<RoomFacility> existingFacilities = new ArrayList<>();
         for (RoomFacility facility : room.getFacilities()) {
@@ -95,7 +95,7 @@ public class RoomController {
         return roomService.getAllRoomFacilities();
     }
 
-    @PostMapping("/facility")
+    @PostMapping("/facility/")
     public RoomFacility createRoomFacility(@RequestBody RoomFacility roomFacility) {
         return roomService.createRoomFacility(roomFacility);
     }
@@ -122,7 +122,7 @@ public class RoomController {
         return roomService.getAllRoomReviewsForRoom(id);
     }
 
-    @PostMapping("/review")
+    @PostMapping("/review/")
     public RoomReview createRoomReview(@RequestBody RoomReview roomReview) {
         return roomService.createRoomReview(roomReview);
     }

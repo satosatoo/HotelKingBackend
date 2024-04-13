@@ -28,9 +28,7 @@ delete from reservation where first_name = 'Artur';]]></console>
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="ad87861b-4232-487d-941e-a6e26915bd6a" object-ref="consoles/Connection" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="ad87861b-4232-487d-941e-a6e26915bd6a" />

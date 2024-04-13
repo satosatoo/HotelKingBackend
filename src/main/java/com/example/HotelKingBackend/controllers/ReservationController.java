@@ -35,7 +35,7 @@ public class ReservationController {
         return reservationService.getAllReservations();
     }
 
-    @PostMapping
+    @PostMapping("/")
     public Reservation createReservation(@RequestBody Reservation reservation, @RequestParam int roomId) {
         return reservationService.createReservation(reservation, roomId);
     }
@@ -57,7 +57,7 @@ public class ReservationController {
         return reservationService.getAllExtras();
     }
 
-    @PostMapping("/extra")
+    @PostMapping("/extra/")
     public Extra createExtra(@RequestBody Extra extra) {
         return reservationService.createExtra(extra);
     }

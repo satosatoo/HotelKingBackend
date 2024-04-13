@@ -5,12 +5,16 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Employee {
+public class Employee implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +43,7 @@ public class Employee {
     @Column(name = "registration_date")
     private Date registrationDate;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -56,6 +61,7 @@ public class Employee {
     @NotBlank
     private String placeOfResidence;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
@@ -66,37 +72,27 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String email, String password, String name, String surname, String phoneNumber, Role role, String workingDays, String workingTime, Date dob, String placeOfResidence, Gender gender, JobPosition job_position) {
-        this.email = email;
+    public Employee(String password, String phoneNumber, String workingDays, String workingTime, String placeOfResidence) {
         this.password = password;
-        this.name = name;
-        this.surname = surname;
         this.phoneNumber = phoneNumber;
-        this.registrationDate = new Date(System.currentTimeMillis());
-        this.role = role;
         this.workingDays = workingDays;
         this.workingTime = workingTime;
-        this.dob = dob;
         this.placeOfResidence = placeOfResidence;
-        this.gender = gender;
-        this.job_position = job_position;
     }
 
-    public Employee(Long employeeId, String email, String password, String name, String surname, String phoneNumber, Role role, String workingDays, String workingTime, Date dob, String placeOfResidence, Gender gender, JobPosition job_position) {
-        this.employeeId = employeeId;
+    public Employee(String email, String password, String name, String surname, String phoneNumber, String workingDays, String workingTime, Date dob, String placeOfResidence, Gender gender, JobPosition job_position) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.surname = surname;
         this.phoneNumber = phoneNumber;
-        this.registrationDate = new Date(System.currentTimeMillis());
-        this.role = role;
         this.workingDays = workingDays;
         this.workingTime = workingTime;
         this.dob = dob;
         this.placeOfResidence = placeOfResidence;
         this.gender = gender;
         this.job_position = job_position;
+        this.registrationDate = new Date(System.currentTimeMillis());
     }
 
     public Long getEmployeeId() {
@@ -207,38 +203,38 @@ public class Employee {
         this.job_position = job_position;
     }
 
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return List.of(new SimpleGrantedAuthority(role.name()));
-//    }
-//
-//    @Override
-//    public String getPassword() {
-//        return this.password;
-//    }
-//
-//    @Override
-//    public String getUsername() {
-//        return this.email;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonLocked() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isCredentialsNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-//        return true;
-//    }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
