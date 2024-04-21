@@ -1,10 +1,9 @@
 package com.example.HotelKingBackend.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
+import lombok.Builder;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,50 +17,31 @@ public class Employee implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "employee_id")
     private Long employeeId;
 
-    @NotBlank
-    @Email
     private String email;
 
-    @NotBlank
-    @Size(min = 8)
     private String password;
 
-    @NotBlank
-    private String name;
+    private String firstname;
 
-    @NotBlank
-    private String surname;
+    private String lastname;
 
-    @NotBlank
-    @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "registration_date")
     private Date registrationDate;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
     private Role role;
 
-    @NotBlank
-    @Column(name = "working_days")
-    private String workingDays;
+    @Enumerated(EnumType.STRING)                       // тут также делать делать доп проверку
+    private List<DayOfWeek> workingDays;
+                                                        // принимать строку времени, переводить в числа и потом
+    private String workingTime;                        // проверять не больше ли 8 часов указано
 
-    @NotBlank
-    @Column(name = "working_time")
-    private String workingTime;
-
-    @NotNull
     private Date dob;
 
-    @NotBlank
     private String placeOfResidence;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
@@ -70,21 +50,14 @@ public class Employee implements UserDetails {
     private JobPosition job_position;
 
     public Employee() {
+        this.registrationDate = new Date(System.currentTimeMillis());
     }
 
-    public Employee(String password, String phoneNumber, String workingDays, String workingTime, String placeOfResidence) {
-        this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.workingDays = workingDays;
-        this.workingTime = workingTime;
-        this.placeOfResidence = placeOfResidence;
-    }
-
-    public Employee(String email, String password, String name, String surname, String phoneNumber, String workingDays, String workingTime, Date dob, String placeOfResidence, Gender gender, JobPosition job_position) {
+    public Employee(String email, String password, String firstname, String lastname, String phoneNumber, List<com.example.HotelKingBackend.models.DayOfWeek> workingDays, String workingTime, Date dob, String placeOfResidence, Gender gender, JobPosition job_position) {
         this.email = email;
         this.password = password;
-        this.name = name;
-        this.surname = surname;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.phoneNumber = phoneNumber;
         this.workingDays = workingDays;
         this.workingTime = workingTime;
@@ -115,20 +88,20 @@ public class Employee implements UserDetails {
         this.password = password;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getPhoneNumber() {
@@ -155,11 +128,11 @@ public class Employee implements UserDetails {
         this.role = role;
     }
 
-    public String getWorkingDays() {
+    public List<DayOfWeek> getWorkingDays() {
         return workingDays;
     }
 
-    public void setWorkingDays(String workingDays) {
+    public void setWorkingDays(List<DayOfWeek> workingDays) {
         this.workingDays = workingDays;
     }
 

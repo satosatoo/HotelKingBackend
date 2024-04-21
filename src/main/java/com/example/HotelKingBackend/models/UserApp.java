@@ -12,11 +12,10 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Guest implements UserDetails {
+public class UserApp implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "guest_id")
     private Long guestId;
 
     @NotBlank
@@ -27,10 +26,10 @@ public class Guest implements UserDetails {
     private String password;
 
     @NotBlank
-    private String name;
+    private String firstname;
 
     @NotBlank
-    private String surname;
+    private String lastname;
 
     @NotBlank
     @Column(name = "phone_number")
@@ -49,14 +48,15 @@ public class Guest implements UserDetails {
     @OneToMany(mappedBy = "guest", cascade = CascadeType.ALL)
     private List<Reservation> reservations;
 
-    public Guest() {
+    public UserApp() {
+        this.registrationDate = new Date(System.currentTimeMillis());
     }
 
-    public Guest(String email, String password, String name, String surname, String phoneNumber) {
+    public UserApp(String email, String password, String firstname, String lastname, String phoneNumber) {
         this.email = email;
         this.password = password;
-        this.name = name;
-        this.surname = surname;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.phoneNumber = phoneNumber;
         this.registrationDate = new Date(System.currentTimeMillis());
     }
@@ -81,20 +81,20 @@ public class Guest implements UserDetails {
         this.password = password;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getPhoneNumber() {

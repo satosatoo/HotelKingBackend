@@ -17,11 +17,11 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="ad87861b-4232-487d-941e-a6e26915bd6a">
-      <console name="Connection" type="STANDARD" schema="public" session="Main"><![CDATA[insert into guest(guest_id, email, name, password, phone_number, role, surname) values (1, 'test@gmail.com', 'test', 'pass', '38056565656', 'USER', 'testing')
+      <console name="Connection" type="STANDARD" schema="public" session="Main"><![CDATA[INSERT INTO job_position(position_id, name, salary) VALUES(1, 'soft eng', 15000.0)
 
-select * from reservation
+select * from guest
 
-delete from reservation where first_name = 'Artur';]]></console>
+delete from guest where guest_id = 2;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">

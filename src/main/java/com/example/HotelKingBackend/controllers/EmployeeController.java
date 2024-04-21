@@ -4,6 +4,7 @@ import com.example.HotelKingBackend.dto.UpdateEmployeeDto;
 import com.example.HotelKingBackend.models.Employee;
 import com.example.HotelKingBackend.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/")
+    @PreAuthorize("hasRole('GUEST')")
     public Employee createEmployee(Employee employee) {
         return employeeService.createEmployee(employee);
     }

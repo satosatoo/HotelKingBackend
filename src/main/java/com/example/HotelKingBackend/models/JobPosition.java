@@ -9,6 +9,7 @@ import lombok.Data;
 import java.util.List;
 
 @Entity
+@Data
 public class JobPosition {
 
     @Id
@@ -29,37 +30,5 @@ public class JobPosition {
     public JobPosition(String name, double salary) {
         this.name = name;
         this.salary = salary;
-    }
-
-    public int getPositionId() {
-        return positionId;
-    }
-
-    public void setPositionId(int positionId) {
-        this.positionId = positionId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getSalary() {
-        return salary;
-    }
-
-    public void setSalary(double salary) {
-        this.salary = salary;
-    }
-
-    public List<Employee> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
     }
 }

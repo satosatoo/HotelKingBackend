@@ -1,8 +1,8 @@
 package com.example.HotelKingBackend.controllers;
 
 import com.example.HotelKingBackend.dto.UpdateGuestDto;
-import com.example.HotelKingBackend.models.Guest;
-import com.example.HotelKingBackend.services.GuestService;
+import com.example.HotelKingBackend.models.UserApp;
+import com.example.HotelKingBackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,40 +13,40 @@ import java.util.List;
 public class GuestController {
 
     @Autowired
-    private GuestService guestService;
+    private UserService userService;
 
     @GetMapping("/id/{id}")
-    public Guest getGuestById(@PathVariable Long id) {
-        return guestService.getGuestById(id);
+    public UserApp getGuestById(@PathVariable Long id) {
+        return userService.getGuestById(id);
     }
 
     @GetMapping("/email/{email}")
-    public Guest getGuestByEmail(@PathVariable String email) {
-        return guestService.getGuestByEmail(email);
+    public UserApp getGuestByEmail(@PathVariable String email) {
+        return userService.getGuestByEmail(email);
     }
 
     @GetMapping("/")
-    public List<Guest> getAllGuests() {
-        return guestService.getAllGuests();
+    public List<UserApp> getAllGuests() {
+        return userService.getAllGuests();
     }
 
     @PostMapping("/")
-    public Guest createGuest(Guest guest) {
-        return guestService.createGuest(guest);
+    public UserApp createGuest(UserApp userApp) {
+        return userService.createGuest(userApp);
     }
 
     @DeleteMapping("/{id}")
     public void deleteGuest(@PathVariable Long id) {
-        guestService.deleteGuest(id);
+        userService.deleteGuest(id);
     }
 
     @DeleteMapping("/{email}")
     public void deleteAllGuestsWithEmail(@PathVariable String email) {
-        guestService.deleteAllGuestWithEmail(email);
+        userService.deleteAllGuestWithEmail(email);
     }
 
     @PutMapping("/{id}")
-    public Guest updateGuest(@PathVariable Long id, UpdateGuestDto updateGuestDto) {
-        return guestService.updateGuest(id, updateGuestDto);
+    public UserApp updateGuest(@PathVariable Long id, UpdateGuestDto updateGuestDto) {
+        return userService.updateGuest(id, updateGuestDto);
     }
 }

@@ -2,10 +2,7 @@ package com.example.HotelKingBackend.controllers;
 
 import com.example.HotelKingBackend.models.Extra;
 import com.example.HotelKingBackend.models.Reservation;
-import com.example.HotelKingBackend.models.Room;
-import com.example.HotelKingBackend.repositories.RoomRepository;
 import com.example.HotelKingBackend.services.ReservationService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

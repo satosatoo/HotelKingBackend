@@ -1,7 +1,7 @@
 package com.example.HotelKingBackend.services;
 
 import com.example.HotelKingBackend.dto.UpdateGuestDto;
-import com.example.HotelKingBackend.models.Guest;
+import com.example.HotelKingBackend.models.UserApp;
 import com.example.HotelKingBackend.models.Role;
 import com.example.HotelKingBackend.repositories.GuestRepository;
 import com.example.HotelKingBackend.repositories.JobPositionRepository;
@@ -17,7 +17,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class GuestService implements UserDetailsService {
+public class UserService implements UserDetailsService {
 
     @Autowired
     private GuestRepository guestRepository;
@@ -31,23 +31,23 @@ public class GuestService implements UserDetailsService {
                 .orElseThrow(() -> new EntityNotFoundException("Guest with email " + username + " not found"));
     }
 
-    public Guest getGuestById(Long id) {
+    public UserApp getGuestById(Long id) {
         return guestRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Guest with id " + id + " not found"));
     }
 
-    public Guest getGuestByEmail(String email) {
+    public UserApp getGuestByEmail(String email) {
         return guestRepository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("Guest with email " + email + " not found"));
     }
 
-    public List<Guest> getAllGuests() {
+    public List<UserApp> getAllGuests() {
         return guestRepository.findAll();
     }
 
-    public Guest createGuest(Guest guest) {
-        guest.setRole(Role.USER);
-        return guestRepository.save(guest);
+    public UserApp createGuest(UserApp userApp) {
+        userApp.setRole(Role.GUEST);
+        return guestRepository.save(userApp);
     }
 
     public void deleteGuest(Long id) {
@@ -58,20 +58,22 @@ public class GuestService implements UserDetailsService {
         guestRepository.deleteGuestsByEmail(email);
     }
 
-    public Guest updateGuest(Long guestId, UpdateGuestDto updateGuestDto) {
-        Guest existingGuest = guestRepository.findById(guestId).orElse(null);
+    public UserApp updateGuest(Long guestId, UpdateGuestDto updateGuestDto) {
+        UserApp existingUserApp = guestRepository.findById(guestId).orElse(null);
 
-        if (existingGuest != null) {
+        if (existingUserApp != null) {
             if (updateGuestDto.getPassword() != null) {
-                existingGuest.setPassword(updateGuestDto.getPassword());
+                existingUserApp.setPassword(updateGuestDto.getPassword());
             }
             if (updateGuestDto.getPhoneNumber() != null) {
-                existingGuest.setPhoneNumber(updateGuestDto.getPhoneNumber());
+                existingUserApp.setPhoneNumber(updateGuestDto.getPhoneNumber());
             }
         } else {
             throw new EntityNotFoundException("Guest with id " + guestId + " not found");
         }
 
-        return guestRepository.save(existingGuest);
+        return guestRepository.save(existingUserApp);
     }
+
+
 }

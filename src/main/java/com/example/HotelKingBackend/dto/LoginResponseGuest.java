@@ -1,22 +1,22 @@
 package com.example.HotelKingBackend.dto;
 
-import com.example.HotelKingBackend.models.Guest;
+import com.example.HotelKingBackend.models.UserApp;
 
 public class LoginResponseGuest extends LoginResponse {
 
-    private Guest guest;
+    private UserApp userApp;
 
-    public LoginResponseGuest(String jwt, Guest guest) {
+    public LoginResponseGuest(String jwt, UserApp userApp) {
         super(jwt);
-        this.guest = guest;
+        this.userApp = userApp;
 
     }
 
-    public Guest getGuest() {
-        return guest;
+    public UserApp getGuest() {
+        return userApp;
     }
 
-    public void setGuest(Guest guest) {
-        this.guest = guest;
+    public void setGuest(UserApp userApp) {
+        this.userApp = userApp;
     }
 }

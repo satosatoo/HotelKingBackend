@@ -3,11 +3,13 @@ package com.example.HotelKingBackend.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import lombok.Data;
 
 import java.time.Month;
 import java.time.Year;
 
 @Entity
+@Data
 public class Payment {
 
     @Id

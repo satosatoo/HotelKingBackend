@@ -3,14 +3,15 @@ package com.example.HotelKingBackend.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
+@Data
 public class Reservation {
 
     @Id
@@ -52,7 +53,7 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private Guest guest;
+    private UserApp userApp;
 
     @ManyToOne
     @JoinColumn(name = "room_id")
@@ -81,117 +82,5 @@ public class Reservation {
         this.comment = comment;
         this.guestEmail = guestEmail;
         this.extras = extras;
-    }
-
-    public Long getReservationId() {
-        return reservationId;
-    }
-
-    public void setReservationId(Long reservationId) {
-        this.reservationId = reservationId;
-    }
-
-    public LocalDate getCheckInDate() {
-        return checkInDate;
-    }
-
-    public void setCheckInDate(LocalDate checkInDate) {
-        this.checkInDate = checkInDate;
-    }
-
-    public LocalDate getCheckOutDate() {
-        return checkOutDate;
-    }
-
-    public void setCheckOutDate(LocalDate checkOutDate) {
-        this.checkOutDate = checkOutDate;
-    }
-
-    public double getTotalCost() {
-        return totalCost;
-    }
-
-    public void setTotalCost(double totalCost) {
-        this.totalCost = totalCost;
-    }
-
-    public Boolean getPolicyAcknowledged() {
-        return policyAcknowledged;
-    }
-
-    public void setPolicyAcknowledged(Boolean policyAcknowledged) {
-        this.policyAcknowledged = policyAcknowledged;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public String getGuestEmail() {
-        return guestEmail;
-    }
-
-    public void setGuestEmail(String guestEmail) {
-        this.guestEmail = guestEmail;
-    }
-
-    public Guest getGuest() {
-        return guest;
-    }
-
-    public void setGuest(Guest guest) {
-        this.guest = guest;
-    }
-
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
-    }
-
-    public List<Extra> getExtras() {
-        return extras;
-    }
-
-    public void setExtras(List<Extra> extras) {
-        this.extras = extras;
-    }
-
-    public Payment getPayment() {
-        return payment;
-    }
-
-    public void setPayment(Payment payment) {
-        this.payment = payment;
     }
 }

@@ -1,7 +1,7 @@
 package com.example.HotelKingBackend.services;
 
 import com.example.HotelKingBackend.models.Extra;
-import com.example.HotelKingBackend.models.Guest;
+import com.example.HotelKingBackend.models.UserApp;
 import com.example.HotelKingBackend.models.Reservation;
 import com.example.HotelKingBackend.models.Room;
 import com.example.HotelKingBackend.repositories.GuestRepository;
@@ -40,9 +40,9 @@ public class ReservationService {
     }
 
     public List<Reservation> getAllReservationsByGuestId(Long id) {
-        Guest guest = guestRepository.findById(id)
+        UserApp userApp = guestRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Guest with id " + id + " not found"));
-        return reservationRepository.findAllByGuest(guest);
+        return reservationRepository.findAllByGuest(userApp);
     }
 
     public List<Reservation> getAllReservations() { return reservationRepository.findAll(); }

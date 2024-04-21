@@ -33,28 +33,4 @@ public class RoomFacility {
     public RoomFacility(@JsonProperty("name") String name) {
         this.name = name;
     }
-
-    public int getFacilityId() {
-        return facilityId;
-    }
-
-    public void setFacilityId(int facilityId) {
-        this.facilityId = facilityId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Room> getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(List<Room> rooms) {
-        this.rooms = rooms;
-    }
 }
