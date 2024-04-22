@@ -4,15 +4,19 @@ import com.example.HotelKingBackend.models.UserApp;
 import com.example.HotelKingBackend.models.Room;
 import com.example.HotelKingBackend.models.RoomFacility;
 import com.example.HotelKingBackend.models.RoomReview;
-import com.example.HotelKingBackend.repositories.GuestRepository;
+import com.example.HotelKingBackend.repositories.UserRepository;
 import com.example.HotelKingBackend.repositories.RoomFacilityRepository;
 import com.example.HotelKingBackend.repositories.RoomRepository;
 import com.example.HotelKingBackend.repositories.RoomReviewRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.file.AccessDeniedException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -30,7 +34,7 @@ public class RoomService {
     private RoomReviewRepository roomReviewRepository;
 
     @Autowired
-    private GuestRepository guestRepository;
+    private UserRepository userRepository;
 
     // Room crud
     public Room getRoom(int id) {
@@ -58,14 +62,6 @@ public class RoomService {
         updatedRoom.setCostPerNight(cost);
         return roomRepository.save(updatedRoom);
     }
-
-
-
-
-    // поиск по цене, вместительности и тд (ниже)
-    // в методе getAvailableRooms както добавить атрибут который будет принимать значение и может не принимать (кол-во человек или комнат)
-
-
 
 
     // RoomFacility crud
@@ -97,10 +93,10 @@ public class RoomService {
         return roomReviewRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Room review with id " + id + " not found"));
     }
 
-    public List<RoomReview> getAllRoomReviewsFromGuest(Long id) {
-        UserApp userApp = guestRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Guest with id " + id + " not found"));
-        return roomReviewRepository.findByGuest(userApp);
+    public List<RoomReview> getAllRoomReviewsFromUser(Long id) {
+        UserApp userApp = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
+        return roomReviewRepository.findByUser(userApp);
     }
 
     public List<RoomReview> getAllRoomReviewsForRoom(int id) {
@@ -109,21 +105,15 @@ public class RoomService {
         return roomReviewRepository.findByRoom(room);
     }
 
-    public RoomReview createRoomReview(RoomReview roomReview) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication != null && authentication.isAuthenticated()) {
-//            // Get the principal (which should be a UserDetails object) from the authentication object
-//            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//
-//            // You can now access information about the authenticated user
-//            String username = userDetails.getUsername();
-//            // You can also access other information such as roles:
-//            // Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-//        } else {
-//            // Handle the case where the user is not authenticated
-//        }
-//        Guest guest = guestRepository.findByEmail(username);
-//        roomReview.setGuest(guest);
+    public RoomReview createRoomReview(RoomReview roomReview, Integer roomId) throws AccessDeniedException {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        UserApp userApp = userRepository.findByEmail(username)
+                .orElseThrow(() -> new EntityNotFoundException("User with email " + username + " not found"));
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new EntityNotFoundException("Room with id " + roomId + " not found"));
+        roomReview.setRoom(room);
+        roomReview.setUser(userApp);
         return roomReviewRepository.save(roomReview);
     }
 

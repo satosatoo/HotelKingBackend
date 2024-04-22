@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface RoomReviewRepository extends JpaRepository<RoomReview, Long> {
     List<RoomReview> findByRoom(Room room);
-    List<RoomReview> findByGuest(UserApp userApp);
+    List<RoomReview> findByUser(UserApp userApp);
 }

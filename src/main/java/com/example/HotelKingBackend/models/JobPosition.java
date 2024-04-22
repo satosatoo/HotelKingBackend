@@ -17,10 +17,10 @@ public class JobPosition {
     @Column(name = "position_id")
     private int positionId;
 
-    @NotBlank
+    @NotBlank(message = "Name is required")
     private String name;
 
-    @NotNull
+    @NotNull(message = "Salary is required")
     private double salary;
 
     @OneToMany(mappedBy = "job_position")

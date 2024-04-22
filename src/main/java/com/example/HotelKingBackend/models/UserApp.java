@@ -3,6 +3,9 @@ package com.example.HotelKingBackend.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,11 +15,14 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name = "users")
+@Data
 public class UserApp implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long guestId;
+    @Column(name = "user_id")
+    private Long userId;
 
     @NotBlank
     @Email
@@ -26,12 +32,18 @@ public class UserApp implements UserDetails {
     private String password;
 
     @NotBlank
+    @Size(min = 2, max = 50)
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "The name must contain only letters")
     private String firstname;
 
     @NotBlank
+    @Size(min = 2, max = 50)
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "Last name must contain only letters")
     private String lastname;
 
     @NotBlank
+    @Size(min = 10, max = 15)
+    @Pattern(regexp = "\\d+", message = "The phone number must contain only numbers")
     @Column(name = "phone_number")
     private String phoneNumber;
 
@@ -42,10 +54,10 @@ public class UserApp implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "guest")
+    @OneToMany(mappedBy = "user")
     private List<RoomReview> reviews;
 
-    @OneToMany(mappedBy = "guest", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Reservation> reservations;
 
     public UserApp() {
@@ -59,82 +71,6 @@ public class UserApp implements UserDetails {
         this.lastname = lastname;
         this.phoneNumber = phoneNumber;
         this.registrationDate = new Date(System.currentTimeMillis());
-    }
-
-    public Long getGuestId() {
-        return guestId;
-    }
-
-    public void setGuestId(Long guestId) {
-        this.guestId = guestId;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public Date getRegistrationDate() {
-        return registrationDate;
-    }
-
-    public void setRegistrationDate(Date registrationDate) {
-        this.registrationDate = registrationDate;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public List<RoomReview> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(List<RoomReview> reviews) {
-        this.reviews = reviews;
-    }
-
-    public List<Reservation> getReservations() {
-        return reservations;
-    }
-
-    public void setReservations(List<Reservation> reservations) {
-        this.reservations = reservations;
     }
 
     @Override

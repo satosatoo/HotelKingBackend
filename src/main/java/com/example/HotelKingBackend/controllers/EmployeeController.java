@@ -20,19 +20,13 @@ public class EmployeeController {
     public Employee getEmployeeById(Long id) {
         return employeeService.getEmployeeById(id);
     }
-
-    @GetMapping("/email/{email}")
-    public Employee getEmployeeByEmail(String email) {
-        return employeeService.getEmployeeByEmail(email);
-    }
-
+    
     @GetMapping("/")
     public List<Employee> getAllEmployees() {
         return employeeService.getAllEmployees();
     }
 
     @PostMapping("/")
-    @PreAuthorize("hasRole('GUEST')")
     public Employee createEmployee(Employee employee) {
         return employeeService.createEmployee(employee);
     }

@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface GuestRepository extends JpaRepository<UserApp, Long> {
+public interface UserRepository extends JpaRepository<UserApp, Long> {
     Optional<UserApp> findByEmail(String email);
-    List<UserApp> deleteGuestsByEmail(String email);
-    Optional<UserApp> findFirstByOrderByGuestIdDesc();
+    List<UserApp> deleteUserByEmail(String email);
+    Optional<UserApp> findFirstByOrderByUserIdDesc();
 }

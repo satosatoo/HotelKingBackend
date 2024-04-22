@@ -14,14 +14,9 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-    @PostMapping("/register-guest")
-    public ResponseEntity<AuthenticationResponse> registerGuest(@RequestBody RegisterGuestRequest request) {
-        return ResponseEntity.ok(authenticationService.registerGuest(request));
-    }
-
-    @PostMapping("/register-employee")
-    public ResponseEntity<AuthenticationResponse> registerEmployee(@RequestBody RegisterEmployeeRequest request) {
-        return ResponseEntity.ok(authenticationService.registerEmployee(request));
+    @PostMapping("/register")
+    public ResponseEntity<AuthenticationResponse> registerGuest(@RequestBody RegisterUserRequest request) {
+        return ResponseEntity.ok(authenticationService.registerUser(request));
     }
 
     @PostMapping("/authenticate")

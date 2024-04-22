@@ -17,24 +17,26 @@ public class Payment {
     @Column(name = "payment_id")
     private Long paymentId;
 
-    @Column(nullable = false)
+    @NotNull(message = "Credit card type is required")
     @Enumerated(EnumType.STRING)
     private CreditCardType creditCardType;
 
+    @NotNull(message = "Card number is required")
     @Column(nullable = false, name = "card_number")
     private String cardNumber;
 
-    @Pattern(regexp = "[0-9]{3}", message = "3 digit number expected")
-    @NotNull
+    @Pattern(regexp = "[0-9]{3}", message = "CVV must be a 3-digit number")
+    @NotNull(message = "CVV is required")
     private String cvv;
 
+    @NotNull(message = "Holder name is required")
     @Column(nullable = false, name = "holder_name")
     private String holderName;
 
-    @NotNull
+    @NotNull(message = "Card expiry year is required")
     private Year cardExpiryYear;
 
-    @NotNull
+    @NotNull(message = "Card expiry month is required")
     private Month cardExpiryMonth;
 
     @OneToOne

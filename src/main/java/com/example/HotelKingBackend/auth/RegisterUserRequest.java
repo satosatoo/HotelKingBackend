@@ -1,16 +1,16 @@
 package com.example.HotelKingBackend.auth;
 
-public class RegisterGuestRequest {
+public class RegisterUserRequest {
     private String email;
     private String password;
     private String firstname;
     private String lastname;
     private String phoneNumber;
 
-    public RegisterGuestRequest() {
+    public RegisterUserRequest() {
     }
 
-    public RegisterGuestRequest(String email, String password, String firstname, String lastname, String phoneNumber) {
+    public RegisterUserRequest(String email, String password, String firstname, String lastname, String phoneNumber) {
         this.email = email;
         this.password = password;
         this.firstname = firstname;

@@ -1,6 +1,5 @@
 package com.example.HotelKingBackend.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -19,7 +18,7 @@ public class RoomFacility {
     @Column(name = "facility_id")
     private int facilityId;
 
-    @NotNull
+    @NotNull(message = "Name cannot be null")
     private String name;
 
     @ManyToMany(mappedBy = "facilities")

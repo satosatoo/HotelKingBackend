@@ -1,5 +1,6 @@
 package com.example.HotelKingBackend.config;
 
+import com.example.HotelKingBackend.repositories.UserRepository;
 import com.example.HotelKingBackend.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -8,12 +9,12 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -25,15 +26,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtService jwtService;
+    private final UserRepository userRepository;
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter(jwtService, userService());
+        return new JwtAuthenticationFilter(jwtService, userDetailsService());
     }
 
     @Bean
-    public UserService userService() {
-        return new UserService();
+    public UserDetailsService userDetailsService() {
+        return new UserService(userRepository);
     }
 
     @Bean
@@ -44,7 +46,7 @@ public class SecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userService());
+        authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
@@ -62,6 +64,10 @@ public class SecurityConfig {
 
                     auth.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/auth/authenticate").permitAll();
+                    auth.requestMatchers("/room/**").permitAll();
+                    auth.requestMatchers("/user/**").permitAll();
+                    auth.requestMatchers("/reservation/**").permitAll();
+                    auth.requestMatchers("/employee/**").permitAll();
 
                     auth.anyRequest().authenticated();
                 })
@@ -71,5 +77,4 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-
 }

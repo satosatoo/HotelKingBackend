@@ -1,13 +1,7 @@
 package com.example.HotelKingBackend.services;
 
-import com.example.HotelKingBackend.models.Extra;
-import com.example.HotelKingBackend.models.UserApp;
-import com.example.HotelKingBackend.models.Reservation;
-import com.example.HotelKingBackend.models.Room;
-import com.example.HotelKingBackend.repositories.GuestRepository;
-import com.example.HotelKingBackend.repositories.ReservationRepository;
-import com.example.HotelKingBackend.repositories.ExtraRepository;
-import com.example.HotelKingBackend.repositories.RoomRepository;
+import com.example.HotelKingBackend.models.*;
+import com.example.HotelKingBackend.repositories.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,10 +21,13 @@ public class ReservationService {
     private ExtraRepository extraRepository;
 
     @Autowired
-    private GuestRepository guestRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private RoomRepository roomRepository;
+
+    @Autowired
+    private PaymentRepository paymentRepository;
 
 
     // Reservation crud
@@ -39,15 +36,17 @@ public class ReservationService {
                 .orElseThrow(() -> new EntityNotFoundException("Reservation with id " + id + " not found"));
     }
 
-    public List<Reservation> getAllReservationsByGuestId(Long id) {
-        UserApp userApp = guestRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Guest with id " + id + " not found"));
-        return reservationRepository.findAllByGuest(userApp);
+    public List<Reservation> getAllReservationsByUserId(Long id) {
+        UserApp userApp = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
+        return reservationRepository.findAllByUser(userApp);
     }
 
     public List<Reservation> getAllReservations() { return reservationRepository.findAll(); }
 
     public Reservation createReservation(Reservation reservation, int roomId) {
+        Payment payment = reservation.getPayment();
+        paymentRepository.save(payment);
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new EntityNotFoundException("Room with id " + roomId + " not found"));
         reservation.setRoom(room);
@@ -72,7 +71,6 @@ public class ReservationService {
     public void deleteReservation(Long id) {
         reservationRepository.deleteById(id);
     }
-
 
 
     // Extra crud

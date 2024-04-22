@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.AccessDeniedException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,6 @@ public class RoomController {
     }
 
     @GetMapping("/")
-    @PreAuthorize("hasRole('GUEST')")
     public List<Room> getAllRooms() {
         return roomService.getAllRooms();
     }
@@ -116,7 +116,7 @@ public class RoomController {
 
     @GetMapping("/review/guest/{id}")
     public List<RoomReview> getAllRoomReviewsFromGuest(@PathVariable Long id) {
-        return roomService.getAllRoomReviewsFromGuest(id);
+        return roomService.getAllRoomReviewsFromUser(id);
     }
 
     @GetMapping("/review/room/{id}")
@@ -124,9 +124,9 @@ public class RoomController {
         return roomService.getAllRoomReviewsForRoom(id);
     }
 
-    @PostMapping("/review/")
-    public RoomReview createRoomReview(@RequestBody RoomReview roomReview) {
-        return roomService.createRoomReview(roomReview);
+    @PostMapping("/{id}/review/")
+    public RoomReview createRoomReview(@RequestBody RoomReview roomReview, @PathVariable Integer id) throws AccessDeniedException {
+        return roomService.createRoomReview(roomReview, id);
     }
 
     @DeleteMapping("/review/{id}")

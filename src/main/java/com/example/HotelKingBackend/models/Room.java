@@ -3,9 +3,7 @@ package com.example.HotelKingBackend.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.util.List;
@@ -19,26 +17,29 @@ public class Room {
     @Column(name = "room_id")
     private int roomId;
 
-    @NotBlank
+    @NotNull(message = "Name is required")
+    @Size(min = 2, max = 100, message = "Name must be between 2 and 100 characters")
     private String name;
 
-    @Column(name = "number_of_guests", nullable = false)
-    @Min(value = 1, message = "Must accommodate at least 1 guest.")
-    private int numberOfGuests;
+    @NotNull(message = "Number of guests is required")
+    @Min(value = 1, message = "Must accommodate at least 1 guest")
+    private Integer numberOfGuests;
 
-    @NotBlank
+    @NotBlank(message = "Description is required")
+    @Size(min = 10, max = 500, message = "Description must be between 10 and 500 characters")
     private String description;
 
-    @NotNull
-    @Column(name = "room_size")
+    @NotNull(message = "Room size is required")
+    @Positive(message = "Room size must be positive")
     private Double roomSize;
 
-    @Column(nullable = false)
+    @NotNull(message = "Room type is required")
     @Enumerated(EnumType.STRING)
     private RoomType roomType;
 
-    @NotNull
-    @Column(name = "price_per_night")
+    @Column(name = "cost_per_night")
+    @NotNull(message = "Cost per night is required")
+    @Positive(message = "Cost per night must be positive")
     private double costPerNight;
 
     @OneToMany(mappedBy = "room")

@@ -1,15 +1,15 @@
 package com.example.HotelKingBackend.dto;
 
-public class UpdateGuestDto {
+public class UpdateUserDto {
 
     private String password;
 
     private String phoneNumber;
 
-    public UpdateGuestDto() {
+    public UpdateUserDto() {
     }
 
-    public UpdateGuestDto(String password, String phoneNumber) {
+    public UpdateUserDto(String password, String phoneNumber) {
         this.password = password;
         this.phoneNumber = phoneNumber;
     }

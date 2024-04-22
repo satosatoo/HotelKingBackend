@@ -24,7 +24,7 @@ public class ReservationController {
 
     @GetMapping("/guest/{id}")
     public List<Reservation> getAllReservationsByGuestId(@PathVariable Long id) {
-        return reservationService.getAllReservationsByGuestId(id);
+        return reservationService.getAllReservationsByUserId(id);
     }
 
     @GetMapping("/")
@@ -32,9 +32,9 @@ public class ReservationController {
         return reservationService.getAllReservations();
     }
 
-    @PostMapping("/")
-    public Reservation createReservation(@RequestBody Reservation reservation, @RequestParam int roomId) {
-        return reservationService.createReservation(reservation, roomId);
+    @PostMapping("/{id}")
+    public Reservation createReservation(@RequestBody Reservation reservation, @PathVariable int id) {
+        return reservationService.createReservation(reservation, id);
     }
 
     @DeleteMapping("/{id}")

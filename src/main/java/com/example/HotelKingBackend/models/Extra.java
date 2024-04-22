@@ -1,6 +1,5 @@
 package com.example.HotelKingBackend.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -18,13 +17,13 @@ public class Extra {
     @Column(name = "extra_id")
     private int extraId;
 
-    @NotBlank
+    @NotBlank(message = "Name is required")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "Description is required")
     private String description;
 
-    @NotNull
+    @NotNull(message = "Cost is required")
     private double cost;
 
     @ManyToMany(mappedBy = "extras")

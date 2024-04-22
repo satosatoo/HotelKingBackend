@@ -1,9 +1,7 @@
 package com.example.HotelKingBackend.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -36,24 +34,31 @@ public class Reservation {
     @AssertTrue(message = "Please acknowledge policy")
     private Boolean policyAcknowledged;
 
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
+    @NotBlank
+    @Size(min = 2, max = 50)
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "The name must contain only letters")
+    private String firstname;
 
-    @Column(nullable = false)
-    private String surname;
+    @NotBlank
+    @Size(min = 2, max = 50)
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "Last name must contain only letters")
+    private String lastname;
 
-    @Column(name = "phone_number", nullable = false)
+    @NotBlank
+    @Size(min = 10, max = 15)
+    @Pattern(regexp = "\\d+", message = "The phone number must contain only numbers")
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     private String comment;
 
-    @Email
-    @Column(nullable = false, name = "guest_email")
-    private String guestEmail;
+    @NotNull
+    @Email(message = "Invalid email format")
+    private String userEmail;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserApp userApp;
+    private UserApp user;
 
     @ManyToOne
     @JoinColumn(name = "room_id")
@@ -72,15 +77,16 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(LocalDate checkInDate, LocalDate checkOutDate, Boolean policyAcknowledged, String firstName, String surname, String phoneNumber, String comment, String guestEmail, List<Extra> extras) {
+    public Reservation(LocalDate checkInDate, LocalDate checkOutDate, Boolean policyAcknowledged, String firstname, String lastname, String phoneNumber, String comment, String userEmail, List<Extra> extras, Payment payment) {
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.policyAcknowledged = policyAcknowledged;
-        this.firstName = firstName;
-        this.surname = surname;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.phoneNumber = phoneNumber;
         this.comment = comment;
-        this.guestEmail = guestEmail;
+        this.userEmail = userEmail;
         this.extras = extras;
-    }
+        this.payment = payment;
+    } //Required request parameter 'roomId' for method parameter type int is not present]
 }
