@@ -1,11 +1,8 @@
 package com.example.HotelKingBackend.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import lombok.Data;
+import jakarta.validation.constraints.*;
+import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +13,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-@Data
+@Builder
 public class UserApp implements UserDetails {
 
     @Id
@@ -24,24 +21,24 @@ public class UserApp implements UserDetails {
     @Column(name = "user_id")
     private Long userId;
 
-    @NotBlank
+    @NotNull
     @Email
     private String email;
 
-    @NotBlank
+    @NotNull
     private String password;
 
-    @NotBlank
+    @NotNull
     @Size(min = 2, max = 50)
     @Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "The name must contain only letters")
     private String firstname;
 
-    @NotBlank
+    @NotNull
     @Size(min = 2, max = 50)
     @Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "Last name must contain only letters")
     private String lastname;
 
-    @NotBlank
+    @NotNull
     @Size(min = 10, max = 15)
     @Pattern(regexp = "\\d+", message = "The phone number must contain only numbers")
     @Column(name = "phone_number")
@@ -71,6 +68,95 @@ public class UserApp implements UserDetails {
         this.lastname = lastname;
         this.phoneNumber = phoneNumber;
         this.registrationDate = new Date(System.currentTimeMillis());
+    }
+
+    public UserApp(Long userId, String email, String password, String firstname, String lastname, String phoneNumber, Date registrationDate, Role role, List<RoomReview> reviews, List<Reservation> reservations) {
+        this.userId = userId;
+        this.email = email;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.phoneNumber = phoneNumber;
+        this.registrationDate = registrationDate;
+        this.role = role;
+        this.reviews = reviews;
+        this.reservations = reservations;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public List<RoomReview> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<RoomReview> reviews) {
+        this.reviews = reviews;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
     }
 
     @Override
@@ -106,5 +192,21 @@ public class UserApp implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "UserApp{" +
+                "userId=" + userId +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", registrationDate=" + registrationDate +
+                ", role=" + role +
+                ", reviews=" + reviews +
+                ", reservations=" + reservations +
+                '}';
     }
 }

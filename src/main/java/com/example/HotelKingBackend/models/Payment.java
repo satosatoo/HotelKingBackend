@@ -22,7 +22,7 @@ public class Payment {
     private CreditCardType creditCardType;
 
     @NotNull(message = "Card number is required")
-    @Column(nullable = false, name = "card_number")
+    @Column(name = "card_number")
     private String cardNumber;
 
     @Pattern(regexp = "[0-9]{3}", message = "CVV must be a 3-digit number")
@@ -30,7 +30,7 @@ public class Payment {
     private String cvv;
 
     @NotNull(message = "Holder name is required")
-    @Column(nullable = false, name = "holder_name")
+    @Column(name = "holder_name")
     private String holderName;
 
     @NotNull(message = "Card expiry year is required")

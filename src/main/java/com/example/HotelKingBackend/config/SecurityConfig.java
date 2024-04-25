@@ -35,7 +35,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserService(userRepository);
+        return new UserService(userRepository, passwordEncoder());
     }
 
     @Bean
@@ -61,14 +61,9 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-
                     auth.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/auth/authenticate").permitAll();
-                    auth.requestMatchers("/room/**").permitAll();
-                    auth.requestMatchers("/user/**").permitAll();
-                    auth.requestMatchers("/reservation/**").permitAll();
-                    auth.requestMatchers("/employee/**").permitAll();
-
+                    auth.requestMatchers("/user/create-admin").permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .sessionManagement(httpSecuritySessionManagementConfigurer ->
