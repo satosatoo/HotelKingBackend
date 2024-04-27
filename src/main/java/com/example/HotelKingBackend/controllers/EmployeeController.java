@@ -2,6 +2,7 @@ package com.example.HotelKingBackend.controllers;
 
 import com.example.HotelKingBackend.dto.UpdateEmployeeDto;
 import com.example.HotelKingBackend.models.Employee;
+import com.example.HotelKingBackend.models.JobPosition;
 import com.example.HotelKingBackend.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,7 +31,7 @@ public class EmployeeController {
 
     @PostMapping("/")
     @PreAuthorize("hasRole('ADMIN')")
-    public Employee createEmployee(Employee employee) {
+    public Employee createEmployee(@RequestBody Employee employee) {
         return employeeService.createEmployee(employee);
     }
 
@@ -42,7 +43,23 @@ public class EmployeeController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public Employee updateEmployee(@PathVariable Long id, UpdateEmployeeDto updateEmployeeDto) {
+    public Employee updateEmployee(@PathVariable Long id, @RequestBody UpdateEmployeeDto updateEmployeeDto) {
         return employeeService.updateEmployee(id, updateEmployeeDto);
+    }
+
+
+    @GetMapping("/job-position/{id}")
+    public JobPosition getJobPosition(@PathVariable Integer id) {
+        return employeeService.getJobPosition(id);
+    }
+
+    @GetMapping("/job-position/")
+    public List<JobPosition> getAllJobPositions() {
+        return employeeService.getAllJobPositions();
+    }
+
+    @PostMapping("/job-position/")
+    public JobPosition createJobPosition(@RequestBody JobPosition jobPosition) {
+        return employeeService.createJobPosition(jobPosition);
     }
 }

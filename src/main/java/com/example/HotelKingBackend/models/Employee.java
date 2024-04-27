@@ -2,17 +2,13 @@ package com.example.HotelKingBackend.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.Builder;
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 @Entity
+@Data
 public class Employee {
 
     @Id
@@ -29,20 +25,17 @@ public class Employee {
     @Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "Last name must contain only letters")
     private String lastname;
 
-    @NotBlank
-    @Size(min = 10, max = 15)
-    @Pattern(regexp = "\\d+", message = "The phone number must contain only numbers")
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date registrationDate;
 
-    @Enumerated(EnumType.STRING)                       // тут также делать делать доп проверку
+    @Enumerated(EnumType.STRING)
     private List<DayOfWeek> workingDays;
 
-    @NotNull                                           // принимать строку времени, переводить в числа и потом
-    private String workingTime;                        // проверять не больше ли 8 часов указано
+    @NotNull
+    private String workingTime;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dob;
@@ -50,6 +43,7 @@ public class Employee {
     @NotNull
     private String placeOfResidence;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "position_id")
     private JobPosition job_position;
@@ -103,85 +97,5 @@ public class Employee {
                 throw new IllegalArgumentException("Employee must be at least 18 years old");
             }
         }
-    }
-
-    public Long getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(Long employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public Date getRegistrationDate() {
-        return registrationDate;
-    }
-
-    public void setRegistrationDate(Date registrationDate) {
-        this.registrationDate = registrationDate;
-    }
-
-    public List<DayOfWeek> getWorkingDays() {
-        return workingDays;
-    }
-
-    public void setWorkingDays(List<DayOfWeek> workingDays) {
-        this.workingDays = workingDays;
-    }
-
-    public String getWorkingTime() {
-        return workingTime;
-    }
-
-    public void setWorkingTime(String workingTime) {
-        this.workingTime = workingTime;
-    }
-
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
-    }
-
-    public String getPlaceOfResidence() {
-        return placeOfResidence;
-    }
-
-    public void setPlaceOfResidence(String placeOfResidence) {
-        this.placeOfResidence = placeOfResidence;
-    }
-
-    public JobPosition getJob_position() {
-        return job_position;
-    }
-
-    public void setJob_position(JobPosition job_position) {
-        this.job_position = job_position;
     }
 }

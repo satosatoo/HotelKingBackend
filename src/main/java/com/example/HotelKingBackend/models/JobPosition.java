@@ -10,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(name = "job_position")
 public class JobPosition {
 
     @Id
@@ -18,6 +19,7 @@ public class JobPosition {
     private int positionId;
 
     @NotBlank(message = "Name is required")
+    @Column(unique = true)
     private String name;
 
     @NotNull(message = "Salary is required")
@@ -26,6 +28,9 @@ public class JobPosition {
     @OneToMany(mappedBy = "job_position")
     @JsonIgnore
     private List<Employee> employees;
+
+    public JobPosition() {
+    }
 
     public JobPosition(String name, double salary) {
         this.name = name;

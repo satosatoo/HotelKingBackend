@@ -53,6 +53,16 @@ public class UserService implements UserDetailsService {
     }
 
     public UserApp createAdmin(UserApp userApp) throws Exception {
+
+        if (userApp.getPhoneNumber() == null || userApp.getPhoneNumber().isEmpty()) {
+            throw new IllegalArgumentException("Phone number is required");
+        }
+        String phoneNumberPattern = "^[0-9]+$";
+        if (!userApp.getPhoneNumber().matches(phoneNumberPattern) || userApp.getPhoneNumber().length() + 1 <= 10 || userApp.getPhoneNumber().length() + 1 >= 15) {
+            throw new IllegalArgumentException("Invalid phone number format");
+        }
+
+        userApp.setPassword(passwordEncoder.encode(userApp.getPassword()));
         userApp.setRole(Role.ADMIN);
         return userRepository.save(userApp);
     }

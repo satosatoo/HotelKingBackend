@@ -2,6 +2,7 @@ package com.example.HotelKingBackend.services;
 
 import com.example.HotelKingBackend.dto.UpdateEmployeeDto;
 import com.example.HotelKingBackend.models.Employee;
+import com.example.HotelKingBackend.models.JobPosition;
 import com.example.HotelKingBackend.repositories.EmployeeRepository;
 import com.example.HotelKingBackend.repositories.JobPositionRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -31,6 +32,18 @@ public class EmployeeService {
     }
 
     public Employee createEmployee(Employee employee) {
+        Integer jobPosId = employee.getJob_position().getPositionId();
+        JobPosition jobPosition = jobPositionRepository.findById(jobPosId).orElseThrow(() -> new EntityNotFoundException("Job position with " + jobPosId + " not found"));
+        employee.setJob_position(jobPosition);
+
+        if (employee.getPhoneNumber() == null || employee.getPhoneNumber().isEmpty()) {
+            throw new IllegalArgumentException("Phone number is required");
+        }
+        String phoneNumberPattern = "^[0-9]+$";
+        if (!employee.getPhoneNumber().matches(phoneNumberPattern) || employee.getPhoneNumber().length() + 1 <= 10 || employee.getPhoneNumber().length() + 1 >= 15) {
+            throw new IllegalArgumentException("Invalid phone number format");
+        }
+
         return employeeRepository.save(employee);
     }
 
@@ -60,5 +73,18 @@ public class EmployeeService {
         }
 
         return employeeRepository.save(existingEmployee);
+    }
+
+    public JobPosition getJobPosition(int id) {
+        return jobPositionRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Job position with " + id + " not found"));
+    }
+
+    public List<JobPosition> getAllJobPositions() {
+        return jobPositionRepository.findAll();
+    }
+
+    public JobPosition createJobPosition(JobPosition jobPosition) {
+        return jobPositionRepository.save(jobPosition);
     }
 }

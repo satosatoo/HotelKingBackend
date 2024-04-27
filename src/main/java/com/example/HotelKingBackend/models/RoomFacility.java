@@ -19,6 +19,7 @@ public class RoomFacility {
     private int facilityId;
 
     @NotNull(message = "Name cannot be null")
+    @Column(unique = true)
     private String name;
 
     @ManyToMany(mappedBy = "facilities")

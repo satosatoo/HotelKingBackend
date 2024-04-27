@@ -19,7 +19,7 @@
     <connection id="ad87861b-4232-487d-941e-a6e26915bd6a">
       <console name="Connection" type="STANDARD" schema="public" session="Main"><![CDATA[INSERT INTO job_position(position_id, name, salary) VALUES(1, 'soft eng', 15000.0)
 
-select * from users
+select * from employee;
 
 delete from users where user_id = 9;]]></console>
     </connection>

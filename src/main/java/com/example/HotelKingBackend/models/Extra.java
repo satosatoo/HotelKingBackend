@@ -18,6 +18,7 @@ public class Extra {
     private int extraId;
 
     @NotBlank(message = "Name is required")
+    @Column(unique = true)
     private String name;
 
     @NotBlank(message = "Description is required")
