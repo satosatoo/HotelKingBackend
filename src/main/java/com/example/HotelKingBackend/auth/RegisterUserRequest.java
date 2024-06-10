@@ -3,18 +3,18 @@ package com.example.HotelKingBackend.auth;
 public class RegisterUserRequest {
     private String email;
     private String password;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
     private String phoneNumber;
 
     public RegisterUserRequest() {
     }
 
-    public RegisterUserRequest(String email, String password, String firstname, String lastname, String phoneNumber) {
+    public RegisterUserRequest(String email, String password, String firstName, String lastName, String phoneNumber) {
         this.email = email;
         this.password = password;
-        this.firstname = firstname;
-        this.lastname = lastname;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.phoneNumber = phoneNumber;
     }
 
@@ -34,20 +34,20 @@ public class RegisterUserRequest {
         this.password = password;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstname) {
+        this.firstName = firstname;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastname) {
+        this.lastName = lastname;
     }
 
     public String getPhoneNumber() {

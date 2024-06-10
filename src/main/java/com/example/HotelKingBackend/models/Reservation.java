@@ -1,11 +1,14 @@
 package com.example.HotelKingBackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.Year;
 import java.util.List;
 
 @Entity
@@ -52,32 +55,38 @@ public class Reservation {
 
     private String comment;
 
-    @NotNull
-    @Email(message = "Invalid email format")
-    private String userEmail;
+    @NotNull(message = "Card number is required")
+    @Column(name = "card_number")
+    private String cardNumber;
+
+    @Pattern(regexp = "[0-9]{3}", message = "CVV must be a 3-digit number")
+    @NotNull(message = "CVV is required")
+    private String cvv;
+
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    @JsonIgnore
+    private Room room;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserApp user;
 
-    @ManyToOne
-    @JoinColumn(name = "room_id")
-    private Room room;
-
-    @ManyToMany
-    @JoinTable(name = "reservation_extra",
-            joinColumns = {@JoinColumn(name = "reservation_id")},
-            inverseJoinColumns = {@JoinColumn(name = "extra_id")})
-    private List<Extra> extras;
-
-    @OneToOne
-    @JoinColumn(name = "payment_id")
-    private Payment payment;
-
     public Reservation() {
     }
 
-    public Reservation(LocalDate checkInDate, LocalDate checkOutDate, Boolean policyAcknowledged, String firstname, String lastname, String phoneNumber, String comment, String userEmail, List<Extra> extras, Payment payment) {
+    public Reservation(LocalDate checkInDate, LocalDate checkOutDate, Boolean policyAcknowledged, String firstname, String lastname, String phoneNumber, String cardNumber, String cvv) {
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.policyAcknowledged = policyAcknowledged;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.phoneNumber = phoneNumber;
+        this.cardNumber = cardNumber;
+        this.cvv = cvv;
+    }
+
+    public Reservation(LocalDate checkInDate, LocalDate checkOutDate, Boolean policyAcknowledged, String firstname, String lastname, String phoneNumber, String comment, String cardNumber, String cvv) {
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.policyAcknowledged = policyAcknowledged;
@@ -85,8 +94,7 @@ public class Reservation {
         this.lastname = lastname;
         this.phoneNumber = phoneNumber;
         this.comment = comment;
-        this.userEmail = userEmail;
-        this.extras = extras;
-        this.payment = payment;
-    } //Required request parameter 'roomId' for method parameter type int is not present]
+        this.cardNumber = cardNumber;
+        this.cvv = cvv;
+    }
 }

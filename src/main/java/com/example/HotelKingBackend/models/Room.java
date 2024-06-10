@@ -33,6 +33,12 @@ public class Room {
     @Positive(message = "Room size must be positive")
     private Double roomSize;
 
+    // Example: '2400 x 2030'
+    @NotNull(message = "Room size is required")
+    @Positive(message = "Room size must be positive")
+    private String bedSize;
+    // Example: '2400 x 2030'
+
     @NotNull(message = "Room type is required")
     @Enumerated(EnumType.STRING)
     private RoomType roomType;
@@ -41,9 +47,6 @@ public class Room {
     @NotNull(message = "Cost per night is required")
     @Positive(message = "Cost per night must be positive")
     private double costPerNight;
-
-    @OneToMany(mappedBy = "room")
-    private List<RoomReview> reviews;
 
     @ManyToMany
     @JoinTable(name = "room_facility_junction",
@@ -58,11 +61,12 @@ public class Room {
     public Room() {
     }
 
-    public Room(String name, int numberOfGuests, String description, double roomSize, RoomType roomType, double costPerNight, List<RoomFacility> facilities) {
+    public Room(String name, Integer numberOfGuests, String description, Double roomSize, String bedSize, RoomType roomType, double costPerNight, List<RoomFacility> facilities) {
         this.name = name;
         this.numberOfGuests = numberOfGuests;
         this.description = description;
         this.roomSize = roomSize;
+        this.bedSize = bedSize;
         this.roomType = roomType;
         this.costPerNight = costPerNight;
         this.facilities = facilities;

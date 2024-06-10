@@ -3,6 +3,7 @@ package com.example.HotelKingBackend.config;
 import com.example.HotelKingBackend.repositories.UserRepository;
 import com.example.HotelKingBackend.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,6 +20,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -27,6 +33,9 @@ public class SecurityConfig {
 
     private final JwtService jwtService;
     private final UserRepository userRepository;
+
+    @Value("${frontend.url}")
+    private String frontendUrl;
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
@@ -60,10 +69,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
-                    auth.requestMatchers(HttpMethod.POST, "/auth/authenticate").permitAll();
+                    auth.requestMatchers("/auth/register").permitAll();
+                    auth.requestMatchers("/auth/login").permitAll();
                     auth.requestMatchers("/user/create-admin").permitAll();
+                    auth.requestMatchers("/api/v1/auth/**", "/swagger-ui/**", "/v1/api-docs", "/v2/api-docs", "/v3/api-docs/**", "/swagger-ui.html").permitAll();
+                    // http://localhost:8080/swagger-ui/index.html#/ or http://localhost:8080/swagger-ui/index.html
                     auth.anyRequest().authenticated();
                 })
                 .sessionManagement(httpSecuritySessionManagementConfigurer ->
@@ -71,5 +83,17 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of(frontendUrl));
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", configuration);
+        return urlBasedCorsConfigurationSource;
     }
 }

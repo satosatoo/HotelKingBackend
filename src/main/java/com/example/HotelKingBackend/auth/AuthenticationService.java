@@ -1,7 +1,6 @@
 package com.example.HotelKingBackend.auth;
 
 import com.example.HotelKingBackend.config.JwtService;
-import com.example.HotelKingBackend.models.Employee;
 import com.example.HotelKingBackend.models.UserApp;
 import com.example.HotelKingBackend.models.Role;
 import com.example.HotelKingBackend.repositories.UserRepository;
@@ -11,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.WebUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -22,25 +22,25 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse registerUser(RegisterUserRequest request) {
-        UserApp userApp = new UserApp();
-        userApp.setEmail(request.getEmail());
-        userApp.setPassword(passwordEncoder.encode(request.getPassword()));
-        userApp.setFirstname(request.getFirstname());
-        userApp.setLastname(request.getLastname());
-        userApp.setPhoneNumber(request.getPhoneNumber());
-        userApp.setRole(Role.USER);
-        userRepository.save(userApp);
-        var jwtToken = jwtService.generateToken(userApp);
-        return new AuthenticationResponse(jwtToken);
+        UserApp user = new UserApp();
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setFirstname(request.getFirstName());
+        user.setLastname(request.getLastName());
+        user.setPhoneNumber(request.getPhoneNumber());
+        user.setRole(Role.USER);
+        userRepository.save(user);
+        var jwtToken = jwtService.generateToken(user);
+        return new AuthenticationResponse(jwtToken, user.getRole().toString());
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationResponse loginUser(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
-        UserApp userApp = userRepository.findByEmail(request.getEmail())
+        UserApp user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new EntityNotFoundException("User with email " + request.getEmail() + " not found"));
-        var jwtToken = jwtService.generateToken(userApp);
-        return new AuthenticationResponse(jwtToken);
+        var jwtToken = jwtService.generateToken(user);
+        return new AuthenticationResponse(jwtToken, user.getRole().toString());
     }
 }

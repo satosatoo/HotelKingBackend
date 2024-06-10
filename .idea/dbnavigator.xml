@@ -17,11 +17,8 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="ad87861b-4232-487d-941e-a6e26915bd6a">
-      <console name="Connection" type="STANDARD" schema="public" session="Main"><![CDATA[INSERT INTO job_position(position_id, name, salary) VALUES(1, 'soft eng', 15000.0)
-
-select * from employee;
-
-delete from users where user_id = 9;]]></console>
+      <console name="Connection" type="STANDARD" schema="public" session="Main"><![CDATA[select * from reservation
+select * from users;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -111,6 +108,7 @@ delete from users where user_id = 9;]]></console>
           <debugger-type value="ASK" />
         </debugger>
         <object-filters hide-empty-schemas="false" hide-pseudo-columns="false" hide-audit-columns="false">
+          <object-filters />
           <object-type-filter use-master-settings="true">
             <object-type name="SCHEMA" enabled="true" />
             <object-type name="USER" enabled="true" />
@@ -138,7 +136,6 @@ delete from users where user_id = 9;]]></console>
             <object-type name="CLUSTER" enabled="true" />
             <object-type name="DBLINK" enabled="true" />
           </object-type-filter>
-          <object-name-filters />
         </object-filters>
       </connection>
     </connections>

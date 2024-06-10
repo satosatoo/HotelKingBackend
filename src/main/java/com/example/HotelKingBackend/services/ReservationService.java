@@ -26,9 +26,6 @@ public class ReservationService {
     @Autowired
     private RoomRepository roomRepository;
 
-    @Autowired
-    private PaymentRepository paymentRepository;
-
 
     // Reservation crud
     public Reservation getReservation(Long id) {
@@ -45,24 +42,24 @@ public class ReservationService {
     public List<Reservation> getAllReservations() { return reservationRepository.findAll(); }
 
     public Reservation createReservation(Reservation reservation, int roomId) {
-        Payment payment = reservation.getPayment();
-        paymentRepository.save(payment);
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String email = authentication.getName();
+//        reservation.setUser(userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User is not authenticated or with email " + email + "not found")));
+
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new EntityNotFoundException("Room with id " + roomId + " not found"));
+        if (!roomRepository.findAvailableRoomById(roomId, reservation.getCheckInDate(), reservation.getCheckOutDate()).isPresent()) {
+            throw new EntityNotFoundException("Room with id " + roomId + " is occupied on these dates");
+        } else if (!reservation.getCheckOutDate().isAfter(reservation.getCheckInDate())
+                || reservation.getCheckInDate().isEqual(reservation.getCheckOutDate())) {
+            throw new EntityNotFoundException("The check in and check out dates must not be on the same day and the check out date must not be less than the check in date");
+        }
         reservation.setRoom(room);
-
-        List<Integer> extraIds = reservation.getExtras().stream().map(Extra::getExtraId).toList();
-        List<Extra> extras = extraRepository.findAllByExtraIdIn(extraIds);
-        reservation.setExtras(extras);
 
         long numberOfNights = ChronoUnit.DAYS.between(reservation.getCheckInDate(), reservation.getCheckOutDate());
         double roomCost = numberOfNights * room.getCostPerNight();
-        double extrasCost = reservation.getExtras().stream()
-                .mapToDouble(Extra::getCost)
-                .sum();
-        double subtotal = roomCost + extrasCost;
-        double tax = 0.1 * subtotal;
-        double totalCost = subtotal + tax;
+        double tax = 0.1 * roomCost;
+        double totalCost = roomCost + tax;
         reservation.setTotalCost(totalCost);
         
         return reservationRepository.save(reservation);
@@ -89,12 +86,5 @@ public class ReservationService {
 
     public void deleteExtra(int id) {
         extraRepository.deleteById(id);
-    }
-
-    public Extra updateExtra(int extraId, double cost) {
-        Extra updatedExtra = extraRepository.findById(extraId)
-                .orElseThrow(() -> new EntityNotFoundException("Extra with id " + extraId + " not found"));
-        updatedExtra.setCost(cost);
-        return extraRepository.save(updatedExtra);
     }
 }

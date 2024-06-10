@@ -24,19 +24,11 @@ public class Extra {
     @NotBlank(message = "Description is required")
     private String description;
 
-    @NotNull(message = "Cost is required")
-    private double cost;
-
-    @ManyToMany(mappedBy = "extras")
-    @JsonIgnore
-    private List<Reservation> reservations;
-
     public Extra() {
     }
 
-    public Extra(String name, String description, double cost) {
+    public Extra(String name, String description) {
         this.name = name;
         this.description = description;
-        this.cost = cost;
     }
 }

@@ -1,9 +1,14 @@
 package com.example.HotelKingBackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +21,8 @@ import java.util.List;
 @Table(name = "users")
 @Builder
 @Data
+@EntityListeners(AuditingEntityListener.class)
+@AllArgsConstructor
 public class UserApp implements UserDetails {
 
     @Id
@@ -44,22 +51,18 @@ public class UserApp implements UserDetails {
     @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "registration_date")
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false, name = "registration_date")
     private Date registrationDate;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "user")
-    private List<RoomReview> reviews;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Reservation> reservations;
 
-    public UserApp() {
-        this.registrationDate = new Date(System.currentTimeMillis());
-    }
+    public UserApp() {}
 
     public UserApp(String email, String password, String firstname, String lastname, String phoneNumber) {
         this.email = email;
@@ -67,19 +70,16 @@ public class UserApp implements UserDetails {
         this.firstname = firstname;
         this.lastname = lastname;
         this.phoneNumber = phoneNumber;
-        this.registrationDate = new Date(System.currentTimeMillis());
     }
 
-    public UserApp(Long userId, String email, String password, String firstname, String lastname, String phoneNumber, Date registrationDate, Role role, List<RoomReview> reviews, List<Reservation> reservations) {
+    public UserApp(Long userId, String email, String password, String firstname, String lastname, String phoneNumber, Role role, List<Reservation> reservations) {
         this.userId = userId;
         this.email = email;
         this.password = password;
         this.firstname = firstname;
         this.lastname = lastname;
         this.phoneNumber = phoneNumber;
-        this.registrationDate = registrationDate;
         this.role = role;
-        this.reviews = reviews;
         this.reservations = reservations;
     }
 
@@ -129,7 +129,6 @@ public class UserApp implements UserDetails {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", registrationDate=" + registrationDate +
                 ", role=" + role +
-                ", reviews=" + reviews +
                 ", reservations=" + reservations +
                 '}';
     }

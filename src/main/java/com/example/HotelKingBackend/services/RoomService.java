@@ -3,16 +3,11 @@ package com.example.HotelKingBackend.services;
 import com.example.HotelKingBackend.models.UserApp;
 import com.example.HotelKingBackend.models.Room;
 import com.example.HotelKingBackend.models.RoomFacility;
-import com.example.HotelKingBackend.models.RoomReview;
 import com.example.HotelKingBackend.repositories.UserRepository;
 import com.example.HotelKingBackend.repositories.RoomFacilityRepository;
 import com.example.HotelKingBackend.repositories.RoomRepository;
-import com.example.HotelKingBackend.repositories.RoomReviewRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,9 +26,6 @@ public class RoomService {
     private RoomFacilityRepository roomFacilityRepository;
 
     @Autowired
-    private RoomReviewRepository roomReviewRepository;
-
-    @Autowired
     private UserRepository userRepository;
 
     // Room crud
@@ -43,8 +35,8 @@ public class RoomService {
 
     public List<Room> getAllRooms() { return roomRepository.findAll(); }
 
-    public List<Room> getAvailableRooms(LocalDate checkIn, LocalDate checkOut) {
-        return roomRepository.findAvailableRoomsBetweenDates(checkIn, checkOut);
+    public List<Room> getAvailableRooms(LocalDate checkIn, LocalDate checkOut, int people) {
+        return roomRepository.findAvailableRoomsBetweenDates(checkIn, checkOut, people);
     }
 
     public Room createRoom(Room room) { return roomRepository.save(room); }
@@ -85,39 +77,5 @@ public class RoomService {
 
     public void deleteRoomFacility(int id) {
         roomFacilityRepository.deleteById(id);
-    }
-
-
-    // RoomReview crud
-    public RoomReview getRoomReview(Long id) {
-        return roomReviewRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Room review with id " + id + " not found"));
-    }
-
-    public List<RoomReview> getAllRoomReviewsFromUser(Long id) {
-        UserApp userApp = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
-        return roomReviewRepository.findByUser(userApp);
-    }
-
-    public List<RoomReview> getAllRoomReviewsForRoom(int id) {
-        Room room = roomRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Room with id " + id + " not found"));
-        return roomReviewRepository.findByRoom(room);
-    }
-
-    public RoomReview createRoomReview(RoomReview roomReview, Integer roomId) throws AccessDeniedException {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userDetails.getUsername();
-        UserApp userApp = userRepository.findByEmail(username)
-                .orElseThrow(() -> new EntityNotFoundException("User with email " + username + " not found"));
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new EntityNotFoundException("Room with id " + roomId + " not found"));
-        roomReview.setRoom(room);
-        roomReview.setUser(userApp);
-        return roomReviewRepository.save(roomReview);
-    }
-
-    public void deleteRoomReview(Long id) {
-        roomReviewRepository.deleteById(id);
     }
 }

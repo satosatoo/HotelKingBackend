@@ -1,12 +1,11 @@
 package com.example.HotelKingBackend.services;
 
-import com.example.HotelKingBackend.auth.RegisterUserRequest;
 import com.example.HotelKingBackend.dto.UpdateUserDto;
 import com.example.HotelKingBackend.models.UserApp;
 import com.example.HotelKingBackend.models.Role;
 import com.example.HotelKingBackend.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,23 +13,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.net.PasswordAuthentication;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
-
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -50,6 +42,21 @@ public class UserService implements UserDetailsService {
 
     public List<UserApp> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public UserApp createUser(UserApp userApp) throws Exception {
+
+        if (userApp.getPhoneNumber() == null || userApp.getPhoneNumber().isEmpty()) {
+            throw new IllegalArgumentException("Phone number is required");
+        }
+        String phoneNumberPattern = "^[0-9]+$";
+        if (!userApp.getPhoneNumber().matches(phoneNumberPattern) || userApp.getPhoneNumber().length() + 1 <= 10 || userApp.getPhoneNumber().length() + 1 >= 15) {
+            throw new IllegalArgumentException("Invalid phone number format");
+        }
+
+        userApp.setPassword(passwordEncoder.encode(userApp.getPassword()));
+        userApp.setRole(Role.USER);
+        return userRepository.save(userApp);
     }
 
     public UserApp createAdmin(UserApp userApp) throws Exception {
