@@ -4,6 +4,8 @@ import com.example.HotelKingBackend.models.*;
 import com.example.HotelKingBackend.repositories.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,18 +35,19 @@ public class ReservationService {
                 .orElseThrow(() -> new EntityNotFoundException("Reservation with id " + id + " not found"));
     }
 
-    public List<Reservation> getAllReservationsByUserId(Long id) {
-        UserApp userApp = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
+    public List<Reservation> getAllReservationsByUser(Authentication auth) {
+        String userEmail = auth.getName();
+        UserApp userApp = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new EntityNotFoundException("User with email " + userEmail + " not found"));
         return reservationRepository.findAllByUser(userApp);
     }
 
     public List<Reservation> getAllReservations() { return reservationRepository.findAll(); }
 
     public Reservation createReservation(Reservation reservation, int roomId) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String email = authentication.getName();
-//        reservation.setUser(userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User is not authenticated or with email " + email + "not found")));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        reservation.setUser(userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("User is not authenticated or with email " + email + "not found")));
 
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new EntityNotFoundException("Room with id " + roomId + " not found"));

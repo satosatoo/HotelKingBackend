@@ -4,6 +4,8 @@ import com.example.HotelKingBackend.models.Extra;
 import com.example.HotelKingBackend.models.Reservation;
 import com.example.HotelKingBackend.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,10 +25,11 @@ public class ReservationController {
         return reservationService.getReservation(id);
     }
 
-    @GetMapping("/guest/{id}")
+    @GetMapping("/all")
 //    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public List<Reservation> getAllReservationsByGuestId(@PathVariable Long id) {
-        return reservationService.getAllReservationsByUserId(id);
+    public List<Reservation> getAllReservationsByUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return reservationService.getAllReservationsByUser(auth);
     }
 
     @GetMapping

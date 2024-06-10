@@ -6,6 +6,8 @@ import com.example.HotelKingBackend.models.Role;
 import com.example.HotelKingBackend.models.UserApp;
 import com.example.HotelKingBackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +28,14 @@ public class UserController {
     @GetMapping("/email/{email}")
     //@PreAuthorize("hasRole('ADMIN')")
     public UserApp getUserByEmail(@PathVariable String email) {
+        return userService.getUserByEmail(email);
+    }
+
+    @GetMapping("/profile")
+    //@PreAuthorize("hasRole('ADMIN')")
+    public UserApp getProfile() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
         return userService.getUserByEmail(email);
     }
 
@@ -59,9 +69,11 @@ public class UserController {
         userService.deleteAllUsersWithEmail(email);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     //@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public UserApp updateUser(@PathVariable Long id, @RequestBody UpdateUserDto updateUserDto) {
-        return userService.updateUser(id, updateUserDto);
+    public UserApp updateUser( @RequestBody UpdateUserDto updateUserDto) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        return userService.updateUser(email, updateUserDto);
     }
 }

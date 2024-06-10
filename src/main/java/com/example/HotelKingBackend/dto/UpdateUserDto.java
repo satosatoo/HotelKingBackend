@@ -1,17 +1,29 @@
 package com.example.HotelKingBackend.dto;
 
+import lombok.AllArgsConstructor;
+
 public class UpdateUserDto {
 
+    private String email;
     private String password;
-
+    private String firstname;
+    private String lastname;
     private String phoneNumber;
 
-    public UpdateUserDto() {
+    public UpdateUserDto(String email, String password, String firstname, String lastname, String phoneNumber) {
+        this.email = email;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.phoneNumber = phoneNumber;
     }
 
-    public UpdateUserDto(String password, String phoneNumber) {
-        this.password = password;
-        this.phoneNumber = phoneNumber;
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -20,6 +32,22 @@ public class UpdateUserDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getPhoneNumber() {

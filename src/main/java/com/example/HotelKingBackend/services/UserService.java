@@ -25,9 +25,9 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username)
-                .orElseThrow(() -> new EntityNotFoundException("User with email " + username + " not found"));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("User with email " + email + " not found"));
     }
 
     public UserApp getUserById(Long id) {
@@ -82,20 +82,29 @@ public class UserService implements UserDetailsService {
         userRepository.deleteUserByEmail(email);
     }
 
-    public UserApp updateUser(Long guestId, UpdateUserDto updateUserDto) {
-        UserApp existingUserApp = userRepository.findById(guestId).orElse(null);
+    public UserApp updateUser(String email, UpdateUserDto updateUserDto) {
+        UserApp existingUser = userRepository.findByEmail(email).orElse(null);
 
-        if (existingUserApp != null) {
+        if (existingUser != null) {
+            if (updateUserDto.getEmail() != null) {
+                existingUser.setEmail(updateUserDto.getEmail());
+            }
             if (updateUserDto.getPassword() != null) {
-                existingUserApp.setPassword(updateUserDto.getPassword());
+                existingUser.setPassword(updateUserDto.getPassword());
+            }
+            if (updateUserDto.getFirstname() != null) {
+                existingUser.setFirstname(updateUserDto.getFirstname());
+            }
+            if (updateUserDto.getLastname() != null) {
+                existingUser.setLastname(updateUserDto.getLastname());
             }
             if (updateUserDto.getPhoneNumber() != null) {
-                existingUserApp.setPhoneNumber(updateUserDto.getPhoneNumber());
+                existingUser.setPhoneNumber(updateUserDto.getPhoneNumber());
             }
         } else {
-            throw new EntityNotFoundException("User with id " + guestId + " not found");
+            throw new EntityNotFoundException("User with email " + email + " not found");
         }
 
-        return userRepository.save(existingUserApp);
+        return userRepository.save(existingUser);
     }
 }
