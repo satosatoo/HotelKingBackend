@@ -74,6 +74,8 @@ public class SecurityConfig {
                     auth.requestMatchers("/auth/register").permitAll();
                     auth.requestMatchers("/auth/login").permitAll();
                     auth.requestMatchers("/user/create-admin").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/extra/**").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/room/**").permitAll();
                     auth.requestMatchers("/api/v1/auth/**", "/swagger-ui/**", "/v1/api-docs", "/v2/api-docs", "/v3/api-docs/**", "/swagger-ui.html").permitAll();
                     // http://localhost:8080/swagger-ui/index.html#/ or http://localhost:8080/swagger-ui/index.html
                     auth.anyRequest().authenticated();

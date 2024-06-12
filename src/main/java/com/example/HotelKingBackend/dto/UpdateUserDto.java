@@ -4,17 +4,17 @@ import lombok.AllArgsConstructor;
 
 public class UpdateUserDto {
 
-    private String email;
     private String password;
     private String firstname;
     private String lastname;
+    private String email;
     private String phoneNumber;
 
-    public UpdateUserDto(String email, String password, String firstname, String lastname, String phoneNumber) {
-        this.email = email;
+    public UpdateUserDto(String password, String firstname, String lastname, String email, String phoneNumber) {
         this.password = password;
         this.firstname = firstname;
         this.lastname = lastname;
+        this.email = email;
         this.phoneNumber = phoneNumber;
     }
 

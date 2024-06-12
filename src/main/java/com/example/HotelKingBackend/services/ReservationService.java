@@ -71,23 +71,4 @@ public class ReservationService {
     public void deleteReservation(Long id) {
         reservationRepository.deleteById(id);
     }
-
-
-    // Extra crud
-    public Extra getExtra(int id) {
-        return extraRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Extra with id " + id + " not found"));
-    }
-
-    public List<Extra> getAllExtras() {
-        return extraRepository.findAll();
-    }
-
-    public Extra createExtra(Extra extra) {
-        return extraRepository.save(extra);
-    }
-
-    public void deleteExtra(int id) {
-        extraRepository.deleteById(id);
-    }
 }

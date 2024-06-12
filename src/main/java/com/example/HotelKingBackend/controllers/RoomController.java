@@ -27,7 +27,7 @@ public class RoomController {
         return roomService.getRoom(id);
     }
 
-    @GetMapping
+    @GetMapping("/")
     // @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public List<Room> getAllRooms() {
         return roomService.getAllRooms();
@@ -43,7 +43,7 @@ public class RoomController {
         return roomService.getAvailableRooms(checkInDate, checkOutDate, people);
     }
 
-    @PostMapping
+    @PostMapping("/")
     //@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public Room createRoom(@RequestBody Room room) {
         List<RoomFacility> existingFacilities = new ArrayList<>();

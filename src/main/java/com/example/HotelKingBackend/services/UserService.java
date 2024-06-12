@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -86,11 +87,8 @@ public class UserService implements UserDetailsService {
         UserApp existingUser = userRepository.findByEmail(email).orElse(null);
 
         if (existingUser != null) {
-            if (updateUserDto.getEmail() != null) {
-                existingUser.setEmail(updateUserDto.getEmail());
-            }
-            if (updateUserDto.getPassword() != null) {
-                existingUser.setPassword(updateUserDto.getPassword());
+            if (updateUserDto.getPassword() != null && !updateUserDto.getPassword().isEmpty()) {
+                existingUser.setPassword(passwordEncoder.encode(updateUserDto.getPassword()));
             }
             if (updateUserDto.getFirstname() != null) {
                 existingUser.setFirstname(updateUserDto.getFirstname());

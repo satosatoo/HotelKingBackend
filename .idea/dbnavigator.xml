@@ -17,8 +17,23 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="ad87861b-4232-487d-941e-a6e26915bd6a">
-      <console name="Connection" type="STANDARD" schema="public" session="Main"><![CDATA[select * from reservation;
-select * from users;]]></console>
+      <console name="Connection" type="STANDARD" schema="public" session="Main"><![CDATA[select * from reservation
+select * from users;
+select * from extra;
+
+INSERT INTO extra (name, description) VALUES 
+('Swimming Pool', 'A luxurious pool for all guests, open from 6 AM to 10 PM.'),
+('Spa Services', 'Relax with our premium spa services including massages, facials, and more.'),
+('Fitness Center', 'State-of-the-art fitness equipment and personal training available.'),
+('Free Wi-Fi', 'High-speed internet access throughout the hotel premises.'),
+('Business Center', 'Equipped with computers, printers, and meeting rooms for business needs.'),
+('Airport Shuttle', 'Complimentary shuttle service to and from the airport.'),
+('Room Service', '24-hour room service offering a variety of cuisines and beverages.'),
+('Conference Rooms', 'Modern conference rooms with AV equipment for meetings and events.'),
+('Laundry Service', 'Convenient laundry and dry cleaning services available.'),
+('Pet Friendly', 'We welcome pets with special amenities and services for them.');
+
+SELECT password FROM users WHERE email = 'uuu@gmail.com';]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
