@@ -8,11 +8,16 @@ import com.example.HotelKingBackend.repositories.RoomFacilityRepository;
 import com.example.HotelKingBackend.repositories.RoomRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.management.relation.RoleInfoNotFoundException;
+import javax.management.relation.RoleStatus;
 import java.nio.file.AccessDeniedException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,7 +44,16 @@ public class RoomService {
         return roomRepository.findAvailableRoomsBetweenDates(checkIn, checkOut, people);
     }
 
-    public Room createRoom(Room room) { return roomRepository.save(room); }
+    public Room createRoom(Room room) throws Exception {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserApp user = userRepository.findByEmail(auth.getName()).orElse(null);
+        List<RoomFacility> existingFacilities = new ArrayList<>();
+        for (RoomFacility facility : room.getFacilities()) {
+            existingFacilities.add(getRoomFacility(facility.getFacilityId()));
+        }
+        room.setFacilities(existingFacilities);
+        return roomRepository.save(room);
+    }
 
     public void deleteRoom(int id) { roomRepository.deleteById(id); }
 

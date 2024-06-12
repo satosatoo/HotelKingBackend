@@ -24,11 +24,19 @@ public class Extra {
     @NotBlank(message = "Description is required")
     private String description;
 
+    @NotBlank(message = "Description is required")
+    private String location;
+
+    @NotBlank(message = "Description is required")
+    private String hours;
+
     public Extra() {
     }
 
-    public Extra(String name, String description) {
+    public Extra(String name, String description, String location, String hours) {
         this.name = name;
         this.description = description;
+        this.location = location;
+        this.hours = hours;
     }
 }

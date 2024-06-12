@@ -34,6 +34,19 @@ public class AuthenticationService {
         return new AuthenticationResponse(jwtToken, user.getRole().toString());
     }
 
+    public AuthenticationResponse registerAdmin(RegisterUserRequest request) {
+        UserApp user = new UserApp();
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setFirstname(request.getFirstName());
+        user.setLastname(request.getLastName());
+        user.setPhoneNumber(request.getPhoneNumber());
+        user.setRole(Role.ADMIN);
+        userRepository.save(user);
+        var jwtToken = jwtService.generateToken(user);
+        return new AuthenticationResponse(jwtToken, user.getRole().toString());
+    }
+
     public AuthenticationResponse loginUser(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())

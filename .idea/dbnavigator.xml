@@ -21,19 +21,28 @@
 select * from users;
 select * from extra;
 
-INSERT INTO extra (name, description) VALUES 
-('Swimming Pool', 'A luxurious pool for all guests, open from 6 AM to 10 PM.'),
-('Spa Services', 'Relax with our premium spa services including massages, facials, and more.'),
-('Fitness Center', 'State-of-the-art fitness equipment and personal training available.'),
-('Free Wi-Fi', 'High-speed internet access throughout the hotel premises.'),
-('Business Center', 'Equipped with computers, printers, and meeting rooms for business needs.'),
-('Airport Shuttle', 'Complimentary shuttle service to and from the airport.'),
-('Room Service', '24-hour room service offering a variety of cuisines and beverages.'),
-('Conference Rooms', 'Modern conference rooms with AV equipment for meetings and events.'),
-('Laundry Service', 'Convenient laundry and dry cleaning services available.'),
-('Pet Friendly', 'We welcome pets with special amenities and services for them.');
 
-SELECT password FROM users WHERE email = 'uuu@gmail.com';]]></console>
+--admin@gmail.com adminadmin
+
+
+INSERT INTO Extra (name, description, hours, location) VALUES 
+('Spa & Fitness', 'Our Spa & Fitness center offers a rejuvenating experience for both body and mind. Unwind in our state-of-the-art spa facilities, complete with massage therapies, sauna rooms, and yoga classes. Stay fit with our modern gym equipment and personalized fitness programs designed by professional trainers.', '6:00 AM - 10:00 PM', 'Level 3'),
+('Shop', 'Explore our exclusive shopping destination, where luxury meets convenience. Discover a wide range of premium brands and products, from fashion apparel and accessories to gourmet delicacies and souvenirs. Whether you''re seeking a stylish outfit or a unique gift, our boutique shops have something for everyone.', '10:00 AM - 9:00 PM', 'Level 1'),
+('Business Service Center', 'Our Business Service Center caters to all your professional needs, providing comprehensive support for successful meetings and events. From high-speed internet access and audiovisual equipment to secretarial services and conference rooms, we ensure seamless operations for your business endeavors.', '8:00 AM - 8:00 PM', 'Level 2'),
+('Bowling Salon', 'Experience the excitement of bowling in our cutting-edge Bowling Salon. Perfect for family outings or friendly competitions, our lanes are equipped with modern technology for an immersive gaming experience. Enjoy delicious snacks and beverages while you bowl, creating unforgettable memories with loved ones.', '10:00 AM - 11:00 PM', 'Level 4'),
+('Beauty & Relaxation', 'Indulge in a world of beauty and relaxation at our dedicated center. Treat yourself to luxurious spa treatments, including facials, manicures, and pedicures, using premium skincare products. Let our expert therapists pamper you with rejuvenating rituals, leaving you feeling refreshed and radiant.', '9:00 AM - 8:00 PM', 'Level 3'),
+('Photo Studio', 'Capture timeless moments in our professional Photo Studio. Whether it''s a family portrait, a romantic couple shoot, or a corporate headshot, our skilled photographers ensure stunning results. Choose from various backdrops and props to personalize your session, and cherish memories that last a lifetime.', '10:00 AM - 6:00 PM', 'Level 2');
+
+DELETE FROM users;
+
+INSERT INTO users (email, password, firstname, lastname, phone_number, registration_date, role)
+VALUES ('admin@gmail.com', 'admin', 'adminadmin', 'admin', '+1234567890', '2024-06-12T12:00:00Z', 'ADMIN');
+
+SELECT password FROM users WHERE email = 'uuu@gmail.com';
+
+select * from room_facility;
+
+DELETE FROM room_facility WHERE facility_id = 16;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">

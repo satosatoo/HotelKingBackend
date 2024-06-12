@@ -5,18 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="62d68c9b-2790-4102-8c2b-2a5df14efbb6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HotelKingBackend/controllers/ExtraController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/HotelKingBackend/services/ExtraService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HotelKingBackend/auth/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HotelKingBackend/auth/AuthenticationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HotelKingBackend/auth/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HotelKingBackend/auth/AuthenticationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HotelKingBackend/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HotelKingBackend/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HotelKingBackend/controllers/ReservationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HotelKingBackend/controllers/ReservationController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HotelKingBackend/controllers/RoomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HotelKingBackend/controllers/RoomController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HotelKingBackend/dto/UpdateUserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HotelKingBackend/dto/UpdateUserDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HotelKingBackend/services/ReservationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HotelKingBackend/services/ReservationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HotelKingBackend/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HotelKingBackend/services/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/HotelKingBackend/dto/UpdateUserDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/HotelKingBackend/dto/UpdateUserDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/HotelKingBackend/services/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/HotelKingBackend/services/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HotelKingBackend/models/Extra.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HotelKingBackend/models/Extra.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/HotelKingBackend/services/RoomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/HotelKingBackend/services/RoomService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/HotelKingBackend/auth/AuthenticationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/HotelKingBackend/auth/AuthenticationController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/HotelKingBackend/auth/AuthenticationService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/HotelKingBackend/auth/AuthenticationService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/HotelKingBackend/config/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/HotelKingBackend/config/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/HotelKingBackend/controllers/RoomController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/HotelKingBackend/controllers/RoomController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/HotelKingBackend/models/Extra.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/HotelKingBackend/models/Extra.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
