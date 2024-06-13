@@ -6,6 +6,7 @@ import com.example.HotelKingBackend.models.Role;
 import com.example.HotelKingBackend.models.UserApp;
 import com.example.HotelKingBackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -20,13 +21,13 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/id/{id}")
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public UserApp getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 
     @GetMapping("/email/{email}")
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public UserApp getUserByEmail(@PathVariable String email) {
         return userService.getUserByEmail(email);
     }
@@ -39,7 +40,7 @@ public class UserController {
         return userService.getUserByEmail(email);
     }
 
-    @GetMapping
+    @GetMapping("/")
     //@PreAuthorize("hasRole('ADMIN')")
     public List<UserApp> getAllUsers() {
         return userService.getAllUsers();
@@ -57,23 +58,21 @@ public class UserController {
         return userService.createUser(userApp);
     }
 
-    @DeleteMapping("/{id}")
-    //@PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/id/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
     }
 
-    @DeleteMapping("/{email}")
-    //@PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/email/{email}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteAllUsersWithEmail(@PathVariable String email) {
         userService.deleteAllUsersWithEmail(email);
     }
 
-    @PutMapping
+    @PutMapping("/")
     //@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public UserApp updateUser( @RequestBody UpdateUserDto updateUserDto) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        return userService.updateUser(email, updateUserDto);
+        return userService.updateUser(updateUserDto);
     }
 }

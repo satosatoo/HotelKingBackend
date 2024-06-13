@@ -57,16 +57,39 @@ public class RoomService {
 
     public void deleteRoom(int id) { roomRepository.deleteById(id); }
 
-    public Room updateRoomDesciption(int roomId, String description) {
-        Room updatedRoom = roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("Room with id " + roomId + " not found"));
-        updatedRoom.setDescription(description);
-        return roomRepository.save(updatedRoom);
-    }
+    public Room updateRoom(int roomId, Room updatedRoom) {
+        Room existingRoom = roomRepository.findById(roomId)
+                .orElseThrow(() -> new EntityNotFoundException("Room with id " + roomId + " not found"));
 
-    public Room updateRoomPrice(int roomId, double cost) {
-        Room updatedRoom = roomRepository.findById(roomId).orElseThrow(() -> new EntityNotFoundException("Room with id " + roomId + " not found"));
-        updatedRoom.setCostPerNight(cost);
-        return roomRepository.save(updatedRoom);
+        if (updatedRoom.getName() != null && !updatedRoom.getName().isEmpty()) {
+            existingRoom.setName(updatedRoom.getName());
+        }
+        if (updatedRoom.getNumberOfGuests() != null) {
+            existingRoom.setNumberOfGuests(updatedRoom.getNumberOfGuests());
+        }
+        if (updatedRoom.getDescription() != null && !updatedRoom.getDescription().isEmpty()) {
+            existingRoom.setDescription(updatedRoom.getDescription());
+        }
+        if (updatedRoom.getRoomSize() != null) {
+            existingRoom.setRoomSize(updatedRoom.getRoomSize());
+        }
+        if (updatedRoom.getBedSize() != null && !updatedRoom.getBedSize().isEmpty()) {
+            existingRoom.setBedSize(updatedRoom.getBedSize());
+        }
+        if (updatedRoom.getRoomType() != null) {
+            existingRoom.setRoomType(updatedRoom.getRoomType());
+        }
+        if (updatedRoom.getCostPerNight() != 0) {
+            existingRoom.setCostPerNight(updatedRoom.getCostPerNight());
+        }
+
+        List<RoomFacility> existingFacilities = new ArrayList<>();
+        for (RoomFacility facility : updatedRoom.getFacilities()) {
+            existingFacilities.add(getRoomFacility(facility.getFacilityId()));
+        }
+        existingRoom.setFacilities(existingFacilities);
+
+        return roomRepository.save(existingRoom);
     }
 
 

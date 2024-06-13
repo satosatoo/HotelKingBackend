@@ -83,8 +83,8 @@ public class UserService implements UserDetailsService {
         userRepository.deleteUserByEmail(email);
     }
 
-    public UserApp updateUser(String email, UpdateUserDto updateUserDto) {
-        UserApp existingUser = userRepository.findByEmail(email).orElse(null);
+    public UserApp updateUser(UpdateUserDto updateUserDto) {
+        UserApp existingUser = userRepository.findByEmail(updateUserDto.getEmail()).orElse(null);
 
         if (existingUser != null) {
             if (updateUserDto.getPassword() != null && !updateUserDto.getPassword().isEmpty()) {
@@ -100,7 +100,7 @@ public class UserService implements UserDetailsService {
                 existingUser.setPhoneNumber(updateUserDto.getPhoneNumber());
             }
         } else {
-            throw new EntityNotFoundException("User with email " + email + " not found");
+            throw new EntityNotFoundException("User with email " + updateUserDto.getEmail() + " not found");
         }
 
         return userRepository.save(existingUser);

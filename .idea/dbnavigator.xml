@@ -18,7 +18,7 @@
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="ad87861b-4232-487d-941e-a6e26915bd6a">
       <console name="Connection" type="STANDARD" schema="public" session="Main"><![CDATA[select * from reservation
-select * from users;
+select * from users
 select * from extra;
 
 
@@ -33,14 +33,14 @@ INSERT INTO Extra (name, description, hours, location) VALUES
 ('Beauty & Relaxation', 'Indulge in a world of beauty and relaxation at our dedicated center. Treat yourself to luxurious spa treatments, including facials, manicures, and pedicures, using premium skincare products. Let our expert therapists pamper you with rejuvenating rituals, leaving you feeling refreshed and radiant.', '9:00 AM - 8:00 PM', 'Level 3'),
 ('Photo Studio', 'Capture timeless moments in our professional Photo Studio. Whether it''s a family portrait, a romantic couple shoot, or a corporate headshot, our skilled photographers ensure stunning results. Choose from various backdrops and props to personalize your session, and cherish memories that last a lifetime.', '10:00 AM - 6:00 PM', 'Level 2');
 
-DELETE FROM users;
+--DELETE FROM users;
 
 INSERT INTO users (email, password, firstname, lastname, phone_number, registration_date, role)
 VALUES ('admin@gmail.com', 'admin', 'adminadmin', 'admin', '+1234567890', '2024-06-12T12:00:00Z', 'ADMIN');
 
 SELECT password FROM users WHERE email = 'uuu@gmail.com';
 
-select * from room_facility;
+select * from room_facility_junction
 
 DELETE FROM room_facility WHERE facility_id = 16;]]></console>
     </connection>
@@ -49,9 +49,7 @@ DELETE FROM room_facility WHERE facility_id = 16;]]></console>
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="ad87861b-4232-487d-941e-a6e26915bd6a" object-ref="consoles/Connection" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="ad87861b-4232-487d-941e-a6e26915bd6a" />

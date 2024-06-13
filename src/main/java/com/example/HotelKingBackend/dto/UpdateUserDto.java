@@ -1,7 +1,5 @@
 package com.example.HotelKingBackend.dto;
 
-import lombok.AllArgsConstructor;
-
 public class UpdateUserDto {
 
     private String password;
@@ -10,11 +8,11 @@ public class UpdateUserDto {
     private String email;
     private String phoneNumber;
 
-    public UpdateUserDto(String password, String firstname, String lastname, String email, String phoneNumber) {
+    public UpdateUserDto(String email, String password, String firstname, String lastname, String phoneNumber) {
+        this.email = email;
         this.password = password;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.email = email;
         this.phoneNumber = phoneNumber;
     }
 

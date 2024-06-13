@@ -4,6 +4,7 @@ import com.example.HotelKingBackend.models.Room;
 import com.example.HotelKingBackend.models.RoomFacility;
 import com.example.HotelKingBackend.services.RoomService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,7 +35,6 @@ public class RoomController {
         return roomService.getAllRooms();
     }
 
-    //@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping("/available")
     public List<Room> getAvailableRooms(
             @RequestParam("checkInDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkInDate,
@@ -51,50 +51,33 @@ public class RoomController {
     }
 
     @DeleteMapping("/{id}")
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteRoom(@PathVariable int id) {
         roomService.deleteRoom(id);
     }
 
-    @PutMapping("/{id}/")
-    //@PreAuthorize("hasRole('ADMIN')")
-    public Room updateRoom(
-            @PathVariable int id,
-            @RequestParam(name = "description", required = false) String description,
-            @RequestParam(name = "roomPrice", required = false) Double roomPrice
-    ) {
-        if (roomService.getRoom(id) == null) {
-            throw new EntityNotFoundException("Room with id " + id + " not found");
-        }
-
-        if (description != null && !description.isEmpty() && roomPrice != 0) {
-            roomService.updateRoomDesciption(id, description);
-            return roomService.updateRoomPrice(id, roomPrice);
-        } else if (description != null && !description.isEmpty()) {
-            return roomService.updateRoomDesciption(id, description);
-        } else if (roomPrice != 0) {
-            return roomService.updateRoomPrice(id, roomPrice);
-        } else {
-            throw new RuntimeException("Not all required parameters were provided.");
-        }
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Room updateRoom(@PathVariable int id, @RequestBody Room room) {
+        return roomService.updateRoom(id, room);
     }
 
 
     // RoomFacility
     @GetMapping("/facility/name/{name}")
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public RoomFacility getRoomFacilityByName(@PathVariable String name) {
         return roomService.getRoomFacilityByName(name);
     }
 
     @GetMapping("/facility/id/{id}")
-    // @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public RoomFacility getRoomFacilityByName(@PathVariable int id) {
         return roomService.getRoomFacility(id);
     }
 
     @GetMapping("/facility/")
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public List<RoomFacility> getAllRoomFacilities() {
         return roomService.getAllRoomFacilities();
     }
@@ -106,7 +89,7 @@ public class RoomController {
     }
 
     @DeleteMapping("/facility/{id}")
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteRoomFacility(@PathVariable int id) {
         roomService.deleteRoomFacility(id);
     }
